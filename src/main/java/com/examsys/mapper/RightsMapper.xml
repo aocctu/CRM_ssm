@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- dao接口的路径 -->
+<mapper namespace="com.examsys.dao.RightsDao">
+
+	<insert id="add" parameterType="com.examsys.po.Rights">
+		Insert into RIGHTS (RIGHTNAME,RIGHTTYPE,URL,PID,RIGHTCODE) values (#{rightName},#{rightType},#{url},#{rights.rid},#{rightCode})
+	</insert>
+
+	<update id="update" parameterType="com.examsys.po.Rights">
+		UPDATE RIGHTS SET RIGHTNAME=#{rightName},RIGHTTYPE=#{rightType},URL=#{url}
+		<if test="rights!=null and rights.rid!=null and rights.rid!=''">
+			,PID=#{rights.rid}
+		</if>
+		,RIGHTCODE=#{rightCode} WHERE RID=#{rid}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM RIGHTS WHERE RID=#{rid}
+	</delete>
+	
+	<resultMap type="com.examsys.po.Rights" id="RightsMap">
+		<id property="rid" column="RID"></id>
+		<result property="rightName" column="RIGHTNAME"></result>
+		<result property="rightType" column="RIGHTtYPE"></result>
+		<result property="url" column="URL"></result>
+		<result property="rightCode" column="RIGHTCODE"></result>
+		<association property="rights" column="PID" javaType="com.examsys.po.Rights" select="get">
+		</association>
+		<collection property="children" javaType="java.util.ArrayList" column="id" ofType="com.examsys.po.Rights" select="getChildrenRightsList"/>
+	</resultMap>
+
+	<resultMap type="com.examsys.po.Rights" id="RightsMap2">
+		<id property="rid" column="RID"></id>
+		<result property="rightName" column="RIGHTNAME"></result>
+		<result property="rightType" column="RIGHTtYPE"></result>
+		<result property="url" column="URL"></result>
+		<collection property="children" javaType="java.util.ArrayList" column="id" ofType="com.examsys.po.Rights" select="getChildrenRightsList"/>
+	</resultMap>
+	
+	
+	<select id="get" parameterType="java.lang.Integer" resultMap="RightsMap">
+	    SELECT a.RID,a.RIGHTNAME,a.RIGHTTYPE,a.URL,a.PID,a.RIGHTCODE,b.RIGHTNAME,b.RIGHTTYPE FROM RIGHTS a LEFT JOIN RIGHTS b ON a.PID = b.RID WHERE a.RID=#{rid}
+	</select>
+	
+	<select id="getList1" resultMap="RightsMap">
+		SELECT a.RID,a.RIGHTNAME,a.RIGHTTYPE,a.URL,a.PID,a.RIGHTCODE,b.RIGHTNAME,b.RIGHTTYPE FROM RIGHTS a LEFT JOIN RIGHTS b ON a.PID = b.RID
+	</select>
+	
+	<select id="getByEmployeeId" parameterType="java.lang.String" resultMap="RightsMap">
+	    SELECT * FROM RIGHTS WHERE RID IN(${_parameter})
+	</select>
+	
+	<select id="getRightidByEmployeeId" parameterType="java.lang.Integer"  resultType="java.lang.String">
+		SELECT RIGHTID FROM JOBRIGHT WHERE JOBINFOID IN (SELECT JOBINFOID FROM EMPLOYEE WHERE ID=#{id})
+	</select>
+	
+	<select id="getChildrenRightsList" parameterType="java.lang.Integer" resultMap="RightsMap2">
+		SELECT a.RID,a.RIGHTNAME,a.RIGHTTYPE,a.URL,a.PID,a.RIGHTCODE,b.RIGHTNAME,b.RIGHTTYPE FROM RIGHTS a LEFT JOIN RIGHTS b ON a.PID = b.RID WHERE
+		<if test="_parameter!=null and _parameter!=''">
+			a.PID=#{pid}
+		</if>
+		<if test="_parameter==null or _parameter==''">
+			 a.PID IS NULL
+		</if>
+	</select>
+	
+	<select id="getList2" parameterType="com.examsys.po.Rights" resultMap="RightsMap">
+		SELECT a.RID,a.RIGHTNAME,a.RIGHTTYPE,a.URL,a.PID,a.RIGHTCODE,b.RIGHTNAME,b.RIGHTTYPE FROM RIGHTS a LEFT JOIN RIGHTS b ON a.PID = b.RID 
+		<where>
+			<if test="rid!=null">
+				 AND a.RID=#{rid}
+			</if>
+			<if test="rightName!=null">
+				 AND a.RIGHTNAME LIKE concat(concat('%',#{rightName}),'%')
+			</if>
+			<if test="url!=null">
+				 AND a.URL LIKE concat(concat('%',#{url}),'%')
+			</if>
+			<if test="rights!=null and rights.rid!=null">
+				 AND a.PID=#{rights.rid}
+			</if>
+			<if test="rights!=null and rights.rid==null">
+				 AND a.PID is 0
+			</if>
+			<trim prefix="WHERE" prefixOverrides="AND|OR"></trim>
+		</where>
+	</select>
+</mapper>

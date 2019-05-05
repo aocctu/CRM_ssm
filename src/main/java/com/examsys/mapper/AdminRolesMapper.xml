@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- dao接口的路径 -->
+<mapper namespace="com.examsys.dao.AdminRolesDao">
+
+	<insert id="add" parameterType="com.examsys.po.AdminRoles">
+	    Insert into ADMIN_ROLES (ROLE_NAME,ROLE_PRIVELEGE,CREATE_DATE,REMARK) values (#{role_name},#{role_privelege},#{create_date},#{remark})
+	</insert>
+
+	<update id="update" parameterType="com.examsys.po.AdminRoles">
+        UPDATE ADMIN_ROLES SET ROLE_NAME=#{role_name},ROLE_PRIVELEGE=#{role_privelege},REMARK=#{remark} WHERE ID=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM ADMIN_ROLES WHERE ID=#{id}
+	</delete>
+	
+	<resultMap type="com.examsys.po.AdminRoles" id="AdminRolesMap">
+		<id property="id" column="ID"></id>
+		<result property="role_name" column="ROLE_NAME"></result>
+		<result property="role_privelege" column="ROLE_PRIVELEGE"></result>
+		<result property="create_date" column="CREATE_DATE"></result>
+		<result property="remark" column="REMARK"></result>
+	</resultMap>
+
+	<select id="get" parameterType="java.lang.Integer" resultMap="AdminRolesMap">
+		SELECT * FROM ADMIN_ROLES WHERE ID=#{id}
+	</select>
+	<select id="getList1" resultMap="AdminRolesMap">
+		SELECT * FROM ADMIN_ROLES
+	</select>
+	
+	<select id="getList2" parameterType="com.examsys.po.AdminRoles" resultMap="AdminRolesMap">
+		SELECT * FROM ADMIN_ROLES a
+		<where>
+			<if test="id!=null">
+				 AND a.ID=#{id}
+			</if>
+			<if test="role_name!=null">
+				 AND a.ROLE_NAME LIKE concat(concat('%',#{role_name}),'%')
+			</if>
+			<trim prefix="WHERE" prefixOverrides="AND|OR"></trim>
+		</where>
+	</select>
+</mapper>

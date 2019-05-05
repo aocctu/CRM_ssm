@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- dao接口的路径 -->
+<mapper namespace="com.examsys.dao.JobInfoDao">
+	
+	<insert id="add" parameterType="com.examsys.po.JobInfo">
+		Insert into JOBINFO (JOB,DEPARTMENTID) values (#{job},#{department.id})
+	</insert>
+	
+	
+	<update id="update" parameterType="com.examsys.po.JobInfo">
+		UPDATE JOBINFO SET JOB=#{job},DEPARTMENTID=#{department.id} WHERE ID=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM JOBINFO WHERE ID=#{id}
+	</delete>
+	
+	
+	<resultMap type="com.examsys.po.JobInfo" id="jobInfoMap">
+		<id property="id" column="ID"/>
+		<result property="job" column="JOB"/>
+		
+		<association property="department" javaType="com.examsys.po.Department">
+			<id property="id" column="DEPARTMENTID"/>
+			<result property="dname" column="DNAME"/>
+		</association>
+	</resultMap>
+	
+	<select id="get" parameterType="java.lang.Integer" resultMap="jobInfoMap">
+		SELECT a.ID,a.JOB,a.DEPARTMENTID,b.DNAME FROM JOBINFO a LEFT JOIN DEPARTMENT b ON a.DEPARTMENTID = b.ID WHERE a.ID = #{id}
+	</select>
+	
+	<select id="getList1" resultMap="jobInfoMap">
+		SELECT a.ID,a.JOB,a.DEPARTMENTID,b.DNAME FROM JOBINFO a LEFT JOIN DEPARTMENT b ON a.DEPARTMENTID = b.ID 
+	</select>
+	
+	<select id="getList2" parameterType="com.examsys.dao.JobInfoDao" resultMap="jobInfoMap">
+		SELECT a.ID,a.JOB,a.DEPARTMENTID,b.DNAME FROM JOBINFO a LEFT JOIN DEPARTMENT b ON a.DEPARTMENTID = b.ID 
+		<where>
+			<if test="id != null">
+				AND a.ID = #{id}
+			</if>
+			<if test="job != null">
+				AND a.JOB LIKE concat(concat('%',#{job}),'%')
+			</if>
+			<if test="department != null and department.dname != null">
+				AND a.DNAME LIKE concat(concat('%',#{department.dname}),'%')
+			</if>
+			<if test="department != null and department.id != null">
+				AND a.DEPARTMENTID = #{department.id}
+			</if>
+			<trim prefix="WHERE" prefixOverrides="AND/OR"></trim>
+		</where>
+	</select>
+	
+	
+</mapper>

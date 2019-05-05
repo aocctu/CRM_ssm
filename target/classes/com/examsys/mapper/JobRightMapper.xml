@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- dao接口的路径 -->
+<mapper namespace="com.examsys.dao.JobRightDao">
+
+	 <insert id="add" parameterType="com.examsys.po.JobRight">
+		Insert into JOBRIGHT (JOBINFOID,RIGHTID) values (#{jobInfo.id},#{rightid})
+	</insert>
+
+	<update id="update" parameterType="com.examsys.po.JobRight">
+		UPDATE JOBRIGHT SET JOBINFOID=#{jobInfo.id},RIGHTID=#{rightid} WHERE ID=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM JOBRIGHT WHERE ID=#{id}
+	</delete>
+	
+	<resultMap type="com.examsys.po.JobRight" id="JobRightMap">
+		<id property="id" column="ID"></id>
+		<result property="rightid" column="RIGHTID"/>
+		
+		<association property="jobInfo" javaType="com.examsys.po.JobInfo">
+			<id property="id" column="JOBINFOID" />
+			<result property="job" column="JOB"/>
+		</association>
+		
+	</resultMap>
+
+	
+	<select id="get" parameterType="java.lang.Integer" resultMap="JobRightMap">
+	    SELECT a.ID,a.JOBINFOID,a.RIGHTID,b.JOB FROM JOBRIGHT a LEFT JOIN JOBINFO b ON a.JOBINFOID = b.ID  WHERE a.ID = #{id}
+	</select>
+	
+	<select id="getList1" resultMap="JobRightMap">
+		SELECT a.ID,a.JOBINFOID,a.RIGHTID,b.JOB FROM JOBRIGHT a LEFT JOIN JOBINFO b ON a.JOBINFOID = b.ID 
+	</select>
+	
+	
+	<select id="getList2" parameterType="com.examsys.po.JobRight" resultMap="JobRightMap">
+		SELECT a.ID,a.JOBINFOID,a.RIGHTID,b.JOB FROM JOBRIGHT a LEFT JOIN JOBINFO b ON a.JOBINFOID = b.ID  
+		<where>
+			<if test="id!=null">
+				 AND a.ID=#{id}
+			</if>
+			
+			<if test="jobInfo!=null and jobInfo.id!=null">
+				 AND a.JOBINFOID=#{jobInfo.id}
+			</if>
+			
+	
+			<trim prefix="WHERE" prefixOverrides="AND|OR"></trim>
+		</where>
+	</select>
+</mapper>

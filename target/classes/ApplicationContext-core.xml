@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="true"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd 
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd 
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- 启动自动扫描 -->
+	<context:component-scan base-package="com.examsys.service">
+		<!-- 制定扫包规则 ,只扫描使用@Controller注解的JAVA类 -->
+	    <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
+    <aop:aspectj-autoproxy/>
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <description>属性文件配置</description>
+        <property name="location" value="classpath:jdbc.properties"/>
+    </bean>
+	
+    <bean id="DataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+        <description>数据源</description>
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="maxIdle" value="${jdbc.maxIdle}"/>
+    </bean>
+
+    <!-- 配置Session工厂 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="DataSource"></property>
+		<!-- 加载MyBatis.xml文件 -->
+		<property name="configLocation" value="classpath:MyBatis.xml"></property>
+		<!-- 自动扫描需要定义类别名的包，将包内的JAVA类的类名作为类别名 -->
+		<property name="typeAliasesPackage" value="com.examsys.po"></property>
+		<property name="plugins">
+	        <array>
+	            <bean class="com.github.pagehelper.PageInterceptor">
+	                <!-- 这里的几个配置主要演示如何使用，如果不理解，一定要去掉下面的配置 -->
+	                <property name="properties">
+	                    <value>
+	                        helperDialect=mysql
+	                        reasonable=true
+	                        supportMethodsArguments=true
+	                        params=count=countSql
+	                        autoRuntimeDialect=true
+	                    </value>
+	                </property>
+	            </bean>
+	        </array>
+	    </property>
+	</bean>
+	
+	<!-- 自动扫描所有的dao接口与文件 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.examsys.dao"></property>
+	</bean>
+	
+    <bean id="hTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <description>基于jdbc的事务管理器</description>
+        <property name="dataSource" ref="DataSource"/>
+    </bean>
+    
+    <!-- 事务的规则 -->
+    <tx:advice id="hTxAdvice" transaction-manager="hTransactionManager">
+        <tx:attributes>
+            <tx:method name="add" isolation="DEFAULT" propagation="REQUIRED" timeout="-1" rollback-for="Exception" read-only="false"/>
+            <tx:method name="delete" isolation="DEFAULT" propagation="REQUIRED" timeout="-1" rollback-for="Exception" read-only="false"/>
+            <tx:method name="update" isolation="DEFAULT" propagation="REQUIRED" timeout="-1" rollback-for="Exception" read-only="false"/>
+            <tx:method name="*List*" isolation="DEFAULT" propagation="REQUIRED" timeout="-1" rollback-for="Exception" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+	
+	<!-- 应用于：哪些包的哪些方法、哪些类 -->
+    <aop:config>
+        <aop:pointcut id="managerMethod" expression="execution(* com.examsys.service..*(..))" />
+        <aop:advisor advice-ref="hTxAdvice" pointcut-ref="managerMethod" />
+    </aop:config>
+    
+</beans>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- dao接口的路径 -->
+<mapper namespace="com.examsys.dao.EmployeeDao">
+	
+	<insert id="add" parameterType="com.examsys.po.Employee">
+		INSERT INTO EMPLOYEE (USERNAME,PASS,NICKNAME,REALNAME,JOBINFOID,DEPARTMENTID,PHONENO,OFFICETEL,WORKSTATU) value (#{username},#{pass},#{nickname},#{realname},#{jobInfo.id},#{department.id},#{phoneNo},#{officeTel},#{workStatu})
+	</insert>
+	
+	<update id="update" parameterType="com.examsys.po.Employee">
+		UPDATE EMPLOYEE SET USERNAME=#{username},PASS=#{pass},NICKNAME=#{nickname},REALNAME=#{realname},JOBINFOID=#{jobInfo.id},DEPARTMENTID=#{department.id},PHONENO=#{phoneNo},OFFICETEL=#{officeTel},WORKSTATU=#{workStatu} WHERE ID=#{id}
+	</update>
+	
+	
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM EMPLOYEE WHERE ID=#{id}
+	</delete>
+	
+	<resultMap type="com.examsys.po.Employee" id="EmployeeMap">
+		<id property="id" column="ID"/>
+		<result property="username" column="USERNAME"/>
+		<result property="pass" column="PASS"/>
+		<result property="nickname" column="NICKNAME"/>
+		<result property="realname" column="realname"/>
+		<result property="phoneNo" column="PHONENO"/>
+		<result property="officeTel" column="OFFICETEL"/>
+		<result property="workStatu" column="WORKSTATU"/>
+		
+		
+		<association property="department" javaType="com.examsys.po.Department">
+			<id property="id" column="DEPARTMENTID"/>
+			<result property="dname" column="DNAME"/>
+		</association>
+		
+		<association property="jobInfo" javaType="com.examsys.po.JobInfo">
+			<id property="id" column="JOBINFOID"/>
+			<result property="job" column="JOB"/>
+		</association>
+	</resultMap>
+	
+	<select id="get" parameterType="java.lang.Integer" resultMap="EmployeeMap">
+		SELECT a.ID,a.USERNAME,a.PASS,a.NICKNAME,a.REALNAME,a.JOBINFOID,a.DEPARTMENTID,a.PHONENO,a.OFFICETEL,a.WORKSTATU,b.JOB,c.DNAME FROM EMPLOYEE a LEFT JOIN JOBINFO b ON a.JOBINFOID = b.ID LEFT JOIN DEPARTMENT c ON a.DEPARTMENTID = c.ID WHERE a.ID = #{id}
+	</select>
+	
+	<select id="getList1" resultMap="EmployeeMap">
+		SELECT a.ID,a.USERNAME,a.PASS,a.NICKNAME,a.REALNAME,a.JOBINFOID,a.DEPARTMENTID,a.PHONENO,a.OFFICETEL,a.WORKSTATU,b.JOB,c.DNAME FROM EMPLOYEE a LEFT JOIN JOBINFO b ON a.JOBINFOID = b.ID LEFT JOIN DEPARTMENT c ON a.DEPARTMENTID = c.ID
+	</select>
+	
+	<select id="getByName" parameterType="java.lang.String" resultMap="EmployeeMap">
+		SELECT a.ID,a.USERNAME,a.PASS,a.NICKNAME,a.REALNAME,a.JOBINFOID,a.DEPARTMENTID,a.PHONENO,a.OFFICETEL,a.WORKSTATU,b.JOB,c.DNAME FROM EMPLOYEE a LEFT JOIN JOBINFO b ON a.JOBINFOID = b.ID LEFT JOIN DEPARTMENT c ON a.DEPARTMENTID = c.ID 
+		<where>
+			<if test="_parameter != null">
+				AND a.USERNAME = #{_parameter}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getList2" parameterType="com.examsys.dao.JobInfoDao" resultMap="EmployeeMap">
+		SELECT a.ID,a.USERNAME,a.PASS,a.NICKNAME,a.REALNAME,a.JOBINFOID,a.DEPARTMENTID,a.PHONENO,a.OFFICETEL,a.WORKSTATU,b.JOB,c.DNAME FROM EMPLOYEE a LEFT JOIN JOBINFO b ON a.JOBINFOID = b.ID LEFT JOIN DEPARTMENT c ON a.DEPARTMENTID = c.ID 
+		<where>
+			<if test="id != null">
+				AND a.ID = #{id}
+			</if>
+			<if test="username != null">
+				AND a.USERNAME LIKE concat(concat('%',#{username}),'%')
+			</if>
+			<if test="realname != null">
+				AND a.REALNAME LIKE concat(concat('%',#{realname}),'%')
+			</if>
+			<!-- <if test="deparment != null and deparment.dname != null">
+				AND a.DEPARMENT =#{deparment.dname}
+			</if>-->
+			<if test="department != null and department.ID != null">
+				AND a.DEPARTMENTID=#{department.id}
+			</if> 
+			<trim prefix="WHERE" prefixOverrides="AND/OR"></trim>
+		</where>
+	</select>
+	
+	
+</mapper>

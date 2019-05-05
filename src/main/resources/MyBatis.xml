@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC">
+				<property name="" value="" />
+			</transactionManager>
+			<dataSource type="UNPOOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				<property name="url" value="jdbc:mysql://localhost:3306/crm" />
+				<property name="username" value="root" />
+				<property name="password" value="123" />
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="com/examsys/mapper/AdminMapper.xml"></mapper>
+		<mapper resource="com/examsys/mapper/AdminRolesSettingsMapper.xml"></mapper>
+		<mapper resource="com/examsys/mapper/AdminRolesMapper.xml"></mapper>
+		<mapper resource="com/examsys/mapper/DepartmentMapper.xml"></mapper>
+		<mapper resource="com/examsys/mapper/JobInfoMapper.xml"></mapper>
+		<mapper resource="com/examsys/mapper/EmployeeMapper.xml"></mapper>
+		<mapper resource="com/examsys/mapper/RightsMapper.xml"></mapper>
+		<mapper resource="com/examsys/mapper/JobRightMapper.xml"></mapper>
+		<mapper resource="com/examsys/mapper/CustomMapper.xml"></mapper>
+		<mapper resource="com/examsys/mapper/ConsultRecordMapper.xml"></mapper>
+		<mapper resource="com/examsys/mapper/CustomInfoMapper.xml"></mapper>
+		<mapper resource="com/examsys/mapper/ResetpassMapper.xml"></mapper>
+		<mapper resource="com/examsys/mapper/ExpressMapper.xml"></mapper>
+		<mapper resource="com/examsys/mapper/ExpressCompanyMapper.xml"></mapper>
+		
+	</mappers>
+	
+	<!-- 配置分页插件 -->
+	<!-- <plugins>
+		<plugin interceptor="com.github.pagehelper.PageInterceptor">
+			设置数据库类型 Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL六种数据库        
+        	<property name="dialect" value="Oracle"/>
+		</plugin>
+	</plugins> -->
+</configuration> 

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- dao接口的路径 -->
+<mapper namespace="com.examsys.dao.CustomDao">
+
+	 <insert id="add" parameterType="com.examsys.po.Custom">
+		Insert into CUSTOM (NAME,EDUCATION,PHONENO,QQ,EMAIL,CUSTOMSTATU,CREATEDATE,INVITENAME) values (#{name},#{education},#{phoneNo},#{qq},#{email},#{customStatu},#{createDate},#{inviteName})
+	</insert>
+
+	<update id="update" parameterType="com.examsys.po.Custom">
+		UPDATE CUSTOM SET NAME=#{name},EDUCATION=#{education},PHONENO=#{phoneNo},QQ=#{qq},EMAIL=#{email},CUSTOMSTATU=#{customStatu},CREATEDATE=#{createDate},INVITENAME=#{inviteName} WHERE ID=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM CUSTOM WHERE ID=#{id}
+	</delete>
+	
+	<resultMap type="com.examsys.po.Custom" id="CustomMap">
+		<id property="id" column="ID"></id>
+		<result property="name" column="NAME"></result>
+		<result property="education" column="EDUCATION"></result>
+		<result property="phoneNo" column="PHONENO"></result>
+		<result property="qq" column="QQ"></result>
+		<result property="email" column="EMAIL"></result>
+		<result property="customStatu" column="CUSTOMSTATU"></result>
+		<result property="createDate" column="CREATEDATE"></result>
+		<result property="inviteName" column="INVITENAME"></result>
+		
+	</resultMap>
+
+	<select id="get" parameterType="java.lang.Integer" resultMap="CustomMap">
+		SELECT a.ID,a.NAME,a.EDUCATION,a.PHONENO,a.QQ,a.EMAIL,a.CUSTOMSTATU,a.CREATEDATE,a.INVITENAME FROM CUSTOM a WHERE a.ID = #{id}
+	</select>
+	
+	<select id="getList1" resultMap="CustomMap">
+		SELECT a.ID,a.NAME,a.EDUCATION,a.PHONENO,a.QQ,a.EMAIL,a.CUSTOMSTATU,a.CREATEDATE,a.INVITENAME FROM CUSTOM a 
+	</select>
+	
+	<select id="getList2" parameterType="com.examsys.po.Custom" resultMap="CustomMap">
+		SELECT a.ID,a.NAME,a.EDUCATION,a.PHONENO,a.QQ,a.EMAIL,a.CUSTOMSTATU,a.CREATEDATE,a.INVITENAME FROM CUSTOM a   
+		<where>
+			<if test="id!=null">
+				 AND a.ID=#{id}
+			</if>
+			<if test="name!=null">
+				 AND a.NAME LIKE concat(concat('%',#{name}),'%')
+			</if>
+			<if test="customStatu!=null">
+				 AND a.CUSTOMSTATU LIKE concat(concat('%',#{customStatu}),'%')
+			</if>
+			
+			<trim prefix="WHERE" prefixOverrides="AND|OR"></trim>
+		</where>
+	</select>
+	
+</mapper>

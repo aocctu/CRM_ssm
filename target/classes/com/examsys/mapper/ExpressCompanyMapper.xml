@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- dao接口的路径 -->
+<mapper namespace="com.examsys.dao.ExpressCompanyDao">
+	
+	<insert id="add" parameterType="com.examsys.po.ExpressCompany">
+		Insert into ExpressCompany (EXP_COMPANY) values (#{exp_company})
+	</insert>
+	
+	<update id="update" parameterType="com.examsys.po.ExpressCompany">
+		UPDATE ExpressCompany SET DNAME=#{exp_company} WHERE ID=#{id}
+	</update>
+	
+	
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM ExpressCompany WHERE ID = #{id}
+	</delete>
+	
+	<resultMap type="com.examsys.po.ExpressCompany" id="expressCompanyMap">
+		<id property="id" column="ID"/>
+		<result property="exp_company" column="EXP_COMPANY"/>
+	</resultMap>
+	
+	<select id="get" parameterType="java.lang.Integer" resultMap="expressCompanyMap">
+		SELECT * FROM ExpressCompany WHERE ID = #{id}
+	</select>
+	
+	<select id="getList1" resultMap="expressCompanyMap">
+		SELECT * FROM ExpressCompany
+	</select>
+	
+	<select id="getList2" parameterType="com.examsys.dao.ExpressCompanyDao" resultMap="expressCompanyMap">
+		SELECT * FROM ExpressCompany a
+		<where>
+			<if test="id != null">
+				AND a.ID = #{id}
+			</if>
+			<if test="exp_company != null">
+				AND a.EXP_COMPANY LIKE concat(concat('%',#{exp_company}),'%')
+			</if>
+			<trim prefix="WHERE" prefixOverrides="AND/OR"></trim>
+		</where>
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- dao接口的路径 -->
+<mapper namespace="com.examsys.dao.ResetpassDao">
+
+	<insert id="add" parameterType="com.examsys.po.Resetpass">
+		Insert into RESETPASS (USERNAME,PHONENO) value (#{username},#{phoneNo})
+	</insert>
+
+	<!-- <update id="update" parameterType="com.examsys.po.Admin">
+		UPDATE ADMIN SET ROLE_ID=#{adminRoles.id},USER_NAME=#{user_name},USER_PASS=#{user_pass},PHONE=#{phone},LOGIN_TIMES=#{login_times},CREATE_DATE=#{create_date},LOGIN_DATE=#{login_date},STATUS=#{status},REMARK=#{remark} WHERE ID=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM ADMIN WHERE ID=#{id}
+	</delete> -->
+	
+	<resultMap type="com.examsys.po.Resetpass" id="ResetpassMap">
+		<id property="id" column="ID"></id>
+		<result property="username" column="USERNAME"></result>
+		<result property="phoneNo" column="PHONENO"></result>
+	
+	</resultMap>
+
+	<select id="get" parameterType="java.lang.Integer" resultMap="ResetpassMap">
+		SELECT a.ID,a.USERNAME,a.PHONENO FROM RESETPASS a WHERE a.ID = #{id}
+	</select>
+	
+	<select id="getList1" resultMap="ResetpassMap">
+		SELECT a.ID,a.USERNAME,a.PHONENO FROM RESETPASS a 
+	</select>
+	
+	<select id="getList2" parameterType="com.examsys.po.Admin" resultMap="ResetpassMap">
+		SELECT a.ID,a.USERNAME,a.PHONENO FROM RESETPASS a  
+		<where>
+			<if test="id!=null">
+				 AND a.ID=#{id}
+			</if>
+			<if test="username!=null">
+				 AND a.USERNAME LIKE concat(concat('%',#{username}),'%')
+			</if>
+			<trim prefix="WHERE" prefixOverrides="AND|OR"></trim>
+		</where>
+	</select>
+	
+</mapper>
