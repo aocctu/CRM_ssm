@@ -8,7 +8,7 @@ package com.examsys.po;
 public class ExpressCompany {
 
 	private Integer id;
-	private String exp_company;
+	private String exp_company; // 快递公司
 	
 	public ExpressCompany(Integer id, String exp_company) {
 		super();

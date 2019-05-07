@@ -69,6 +69,7 @@ public class RightsController {
 			/*if(rights2.equals(null)){
 				
 			}*/
+			
 			System.out.println(rights2);
 			rights.setRights(rights2);
 			//通过用户名去获取管理员
@@ -212,13 +213,6 @@ public class RightsController {
 		}
 		return jsonDatas; // 返回存放数据的集合，最终给springmvc转换为json数据输出给浏览器
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }

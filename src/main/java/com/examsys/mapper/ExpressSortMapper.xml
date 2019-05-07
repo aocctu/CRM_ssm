@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- dao接口的路径 -->
+<mapper namespace="com.examsys.dao.ExpressSortDao">
+
+	<insert id="add" parameterType="com.examsys.po.ExpressSort">
+		Insert into ExpressSort (EXP_IPHONE,EXP_NAME,PAY_TYPE,EXP_COST,EXP_COMPANY_ID,EXP_NUM,EXP_STATUS,CREATE_NAME,CREATE_DATE,REMARK) values (#{exp_iphone},#{exp_name},#{pay_type},#{exp_cost},#{expressCompany.id},#{exp_num},#{exp_status},#{create_name},#{create_date},#{remark})
+	</insert>
+
+	<update id="update" parameterType="com.examsys.po.ExpressSort">
+		UPDATE ExpressSort SET EXP_IPHONE=#{exp_iphone},EXP_NAME=#{exp_name},PAY_TYPE=#{pay_type},EXP_COST=#{exp_cost},EXP_COMPANY_ID=#{expressCompany.id},EXP_NUM=#{exp_num},EXP_STATUS=#{exp_status},CREATE_NAME=#{create_name},CREATE_DATE=#{create_date},REMARK=#{remark} WHERE ID=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM ExpressSort WHERE ID=#{id}
+	</delete>
+	
+	<!-- 创建数据库表 -->
+	<resultMap type="com.examsys.po.ExpressSort" id="expressSortMap">
+		<id property="id" column="ID"></id>
+		<result property="exp_num" column="EXP_NUM"></result>
+		<result property="model" column="MODEL"></result>
+		<result property="material_type" column="MATERIAL_TYPE"></result>
+		<result property="quantity" column="QUANTITY"/>
+		<result property="fault" column="FAULT"/>
+		<result property="type" column="TYPE"/>
+		<result property="remark" column="REMARK"/>
+		<result property="color" column="COLOR"/>
+		<result property="sn" column="SN"/>
+		
+	</resultMap>
+
+	<select id="get" parameterType="java.lang.Integer" resultMap="expressSortMap">
+		SELECT a.ID,a.EXP_NUM,a.MODEL,a.MATERIAL_TYPE,a.QUANTITY,a.FAULT,a.TYPE,a.REMARK,a.COLOR,a.SN FROM EXPRESSSORT a  WHERE a.ID=#{id}
+	</select>
+	
+	<select id="getList1" resultMap="expressSortMap">
+		SELECT a.ID,a.EXP_NUM,a.MODEL,a.MATERIAL_TYPE,a.QUANTITY,a.FAULT,a.TYPE,a.REMARK,a.COLOR,a.SN FROM EXPRESSSORT a 
+	</select>
+	
+	<select id="getList2" parameterType="com.examsys.po.ExpressSort" resultMap="expressSortMap">
+		SELECT a.ID,a.EXP_NUM,a.MODEL,a.MATERIAL_TYPE,a.QUANTITY,a.FAULT,a.TYPE,a.REMARK,a.COLOR,a.SN FROM EXPRESSSORT a 
+		<where>
+			<if test="id!=null">
+				 AND a.ID=#{id}
+			</if>
+			 <if test="exp_num!=null">
+				 AND a.EXP_NUM =#{exp_num}
+			</if>
+			<if test="model!=null">
+				 AND a.MODEL =#{model}
+			</if>
+		
+			
+			<trim prefix="WHERE" prefixOverrides="AND|OR"></trim>
+		</where>
+	</select>
+	
+	
+
+</mapper>

@@ -8,6 +8,11 @@
 	<c:import url="/header.jsp"></c:import>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/express.js"></script>
 </head>
+<script type="text/javascript">
+
+
+
+</script>
 
  <body class="easyui-layout">
  	<div class="easyui-panel" style="height:754px;padding:10px;">
@@ -31,22 +36,22 @@
     
 	<div id="add" class="easyui-dialog" title="快递信息录入" 
 		data-options="modal:true,closed:true,iconCls:'icon-add',buttons:'#add-dlg-buttons'" 
-		style="width:500px;height:100%;padding:10px;">
+		style="width:500px;height:90%;padding:10px;">
 		<div style="padding:10px 0 10px 60px">
 			<form id="addForm" method="post">
 	            <table>
 	                <tr>
 	                    <td>快递员手机号:</td>
-	                    <td><input class="easyui-validatebox" type="text" name="exp_iphone" data-options="required:true"></input></td>
+	                    <td><input class="easyui-textbox" type="text" name="exp_iphone" data-options="required:true"></input></td>
 	                </tr>
 	                <tr>
 	                    <td>快递员名字:</td>
-	                    <td><input class="easyui-validatebox" type="text" name="exp_name" data-options="required:true"></input></td>
+	                    <td><input class="easyui-textbox" type="text" name="exp_name" data-options="required:true"></input></td>
 	                </tr>
 	                <tr>
 	                    <td>付款类型:</td>
 	                    <td>
-	                    	<select class="easyui-combobox" name="pay_type" style="width:170px;">
+	                    	<select id="pay_type" class="easyui-combobox" name="pay_type" style="width:170px;">
 					        	<option value="1" selected="selected">寄付</option>
 					        	<option value="0">到付</option>
 					    	</select>
@@ -54,7 +59,7 @@
 	                </tr>
 	                <tr>
 	                    <td>费用:</td>
-	                    <td><input class="easyui-validatebox" type="text" name="exp_cost" data-options="required:false"></input></td>
+	                    <td><input id="exp_cost" class="easyui-textbox" type="text" name="exp_cost" data-options="required:false" disabled></input></td>
 	                </tr>
 	                <tr>
 	                    <td>快递公司:</td>
@@ -64,18 +69,18 @@
 		                    url:'${pageContext.request.contextPath}/express/expressCompanyDatas',
 		                    valueField:'id',
 		                    textField:'exp_company',
-		                    panelHeight:'auto'
+		                    panelHeight:'300'
 		            		"></td>
 	                </tr>
 	                <tr>
 	                    <td>快递单号:</td>
-	                    <td><input class="easyui-validatebox" type="text" name="exp_num" data-options="required:true"></input></td>
+	                    <td><input class="easyui-textbox" type="text" name="exp_num" data-options="multiline:true,required:true" style="height: 100px"></input></td>
 	                </tr>
 	                
 	                
 	                <tr>
 	                    <td>备注:</td>
-	                    <td><input class="easyui-validatebox" type="text" name="remark" data-options="required:false"></input></td>
+	                    <td><input class="easyui-textbox" type="text" name="remark" data-options="required:false"></input></td>
 	                </tr>
 	            </table>
 	            
@@ -84,29 +89,84 @@
          
          <div id="add-dlg-buttons">
 	        <a id="add-save-button" href="javascript:void(0)" class="easyui-linkbutton">保存</a>
-	        <a id="add-close-button" href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#add').dialog('close')">关闭</a>
+	        <a id="add-close-button" href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#add').dialog('close').form('clear')">关闭</a>
+	    </div>
+    </div>
+    
+    
+	<div id="search" class="easyui-dialog" title="查询条件" 
+		data-options="modal:true,closed:true,iconCls:'icon-search',buttons:'#search-dlg-buttons'" 
+		style="width:500px;height:90%;padding:10px;">
+		
+		<div style="padding:10px 0 10px 60px">
+			<form id="searchForm" method="post">
+	            <table>
+	                <tr>
+	                    <td>快递员手机号:</td>
+	                    <td><input class="easyui-textbox" type="text" name="exp_iphone"></input></td>
+	                </tr>
+	                <tr>
+	                    <td>快递员名字:</td>
+	                    <td><input class="easyui-textbox" type="text" name="exp_name"></input></td>
+	                </tr>
+	                <tr>
+	                    <td>付款类型:</td>
+	                    <td>
+	                    	<select class="easyui-combobox" name="pay_type" style="width:170px;" data-options="value:'',editable:false">
+					        	<option value="1" >寄付</option>
+					        	<option value="0">到付</option>
+					    	</select>
+						</td>
+	                </tr>
+	                <!--  <tr>
+	                    <td>费用:</td>
+	                    <td><input class="easyui-textbox" type="text" name="exp_cost" ></input></td>
+	                </tr> -->
+	                <tr>
+	                    <td>快递公司:</td>
+		               <td><input class="easyui-combobox"
+				            name="expressCompany.id"
+				            data-options="
+		                    url:'${pageContext.request.contextPath}/express/expressCompanyDatas',
+		                    valueField:'id',
+		                    textField:'exp_company',
+		                    panelHeight:'300'
+		            		"></td>
+	                </tr>
+	                <tr>
+	                    <td>快递单号:</td>
+	                    <td><input class="easyui-textbox" type="text" name="exp_num" ></input></td>
+	                </tr>
+	                
+	            </table>
+	            
+	         </form>
+         </div>
+		<div id="search-dlg-buttons">
+	        <a id="search-save-button" href="javascript:void(0)" class="easyui-linkbutton">查询</a>
+	        <a id="search-close-button" href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#search').dialog('close').form('clear')">关闭</a>
 	    </div>
     </div>
     
     
     <div id="edit" class="easyui-dialog" title="修改快递信息" 
     	data-options="modal:true,closed:true,iconCls:'icon-edit',buttons:'#edit-dlg-buttons'" 
-		style="width:500px;height:100%;padding:10px;">
+		style="width:500px;height:90%;padding:10px;">
 		<div style="padding:10px 0 10px 60px">
 			<form id="editForm" method="post">
 	           <table>
 	           		
 	                <tr>
 	                    <td>编号:</td>
-	                    <td><input class="easyui-validatebox" type="text" readonly="readonly" name="id" ></input></td>
+	                    <td><input class="easyui-textbox" type="text" readonly="readonly" name="id" ></input></td>
 	                </tr>
 	                <tr>
 	                    <td>快递员手机号:</td>
-	                    <td><input class="easyui-validatebox" type="text" name="exp_iphone" data-options="required:true"></input></td>
+	                    <td><input class="easyui-textbox" type="text" name="exp_iphone" data-options="required:true"></input></td>
 	                </tr>
 	                <tr>
 	                    <td>快递员名字:</td>
-	                    <td><input class="easyui-validatebox" type="text" name="exp_name" data-options="required:true"></input></td>
+	                    <td><input class="easyui-textbox" type="text" name="exp_name" data-options="required:true"></input></td>
 	                </tr>
 	                <tr>
 	                    <td>付款类型:</td>
@@ -119,29 +179,29 @@
 	                </tr>
 	                <tr>
 	                    <td>费用:</td>
-	                    <td><input class="easyui-validatebox" type="text" name="exp_cost" data-options="required:false"></input></td>
+	                    <td><input class="easyui-textbox" type="text" name="exp_cost" data-options="required:false"></input></td>
 	                </tr>
 	                <tr>
 	                    <td>快递公司:</td>
 		                <td><input class="easyui-combobox"
-				            name="exp_company_id"
+				            name="expressCompany.id"
 				            id="edit_exp_company_id"
 				            data-options="
 		                    url:'${pageContext.request.contextPath}/express/expressCompanyDatas',
 		                    valueField:'id',
 		                    textField:'exp_company',
-		                    panelHeight:'auto'
+		                    panelHeight:'300'
 		            		"></td>
 	                </tr>
 	                <tr>
 	                    <td>快递单号:</td>
-	                    <td><input class="easyui-validatebox" type="text" name="exp_num" data-options="required:true"></input></td>
+	                    <td><input class="easyui-textbox" type="text" name="exp_num" data-options="required:true"></input></td>
 	                </tr>
 	                
 	                
 	                <tr>
 	                    <td>备注:</td>
-	                    <td><input class="easyui-validatebox" type="text" name="remark" data-options="required:false"></input></td>
+	                    <td><input class="easyui-textbox" type="text" name="remark" data-options="required:false"></input></td>
 	                </tr>
 	            </table>
 	            

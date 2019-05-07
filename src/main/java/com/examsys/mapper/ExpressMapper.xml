@@ -52,16 +52,29 @@
 			<if test="id!=null">
 				 AND a.ID=#{id}
 			</if>
-			<if test="exp_num!=null">
-				 AND a.EXP_NUM LIKE concat(concat('%',#{exp_num}),'%')
+			 <if test="exp_iphone!=null">
+				 AND a.EXP_IPHONE =#{exp_iphone}
 			</if>
+			<if test="exp_name!=null">
+				 AND a.EXP_NAME =#{exp_name}
+			</if>
+ 			<if test="pay_type!=null">
+				 AND a.PAY_TYPE =#{pay_type}
+			</if>
+		<!-- 	<if test="exp_cost!=0.0">
+				 AND a.EXP_COST =#{exp_cost}
+			</if> -->
+			<if test="expressCompany != null and expressCompany.ID != null">
+				AND a.EXP_COMPANY_ID =#{expressCompany.id}
+			</if> 
+			<if test="exp_num!=null">
+				 AND a.EXP_NUM =#{exp_num}
+			</if> 
 			
 			<trim prefix="WHERE" prefixOverrides="AND|OR"></trim>
 		</where>
 	</select>
 	
 	
-	<select id="getExpressByUserName" parameterType="java.lang.String" resultMap="expressMap">
-		SELECT a.ID,a.ROLE_ID,a.USER_NAME,a.USER_PASS,a.PHONE,a.LOGIN_TIMES,a.CREATE_DATE,a.LOGIN_DATE,a.STATUS,a.REMARK,b.ROLE_NAME,b.ROLE_PRIVELEGE FROM Express a LEFT JOIN Express_ROLES b ON a.ROLE_ID=b.id WHERE a.USER_NAME=#{user_name}
-	</select>
+
 </mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- dao接口的路径 -->
+<mapper namespace="com.examsys.dao.CustomInfoDao">
+
+	 <insert id="add" parameterType="com.examsys.po.CustomInfo">
+		Insert into CUSTOMINFO (CUSTOMID,FOLLOWMANID,STATU,STARTDATE,LASTFOLLOWDATE,PLANDATE,MARK) values (#{custom.id},#{employee.id},#{statu},#{startDate},#{lastFollowDate},#{planDate},#{mark})
+	</insert>
+
+	<update id="update" parameterType="com.examsys.po.CustomInfo">
+		UPDATE CUSTOMINFO SET CUSTOMID=#{custom.id},FOLLOWMANID=#{employee.id},STATU=#{statu},STARTDATE=#{startDate},LASTFOLLOWDATE=#{lastFollowDate},PLANDATE=#{planDate},MARK=#{mark} WHERE ID=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM CUSTOMINFO WHERE ID=#{id}
+	</delete>
+	
+	<resultMap type="com.examsys.po.CustomInfo" id="CustomInfoMap">
+		<id property="id" column="ID"></id>
+		<result property="statu" column="STATU"></result>
+		<result property="startDate" column="STARTDATE"></result>
+		<result property="lastFollowDate" column="LASTFOLLOWDATE"></result>
+		<result property="planDate" column="PLANDATE"></result>
+		<result property="mark" column="MARK"></result>
+		
+		<association property="custom" javaType="com.examsys.po.Custom">
+			<id property="id" column="CUSTOMID"/>
+			<result property="name" column="NAME"></result>
+		</association>
+		
+		<association property="employee" javaType="com.examsys.po.Employee">
+			<id property="id" column="FOLLOWMANID"/>
+			<result property="username" column="USERNAME"></result>
+		</association>
+		
+	</resultMap>
+
+	<select id="get" parameterType="java.lang.Integer" resultMap="CustomInfoMap">
+		SELECT a.ID,a.CUSTOMID,a.FOLLOWMANID,a.STATU,a.STARTDATE,a.LASTFOLLOWDATE,a.PLANDATE,a.MARK,b.NAME,c.USERNAME FROM CUSTOMINFO a LEFT JOIN CUSTOM b ON a.CUSTOMID = b.ID LEFT JOIN EMPLOYEE c ON a.FOLLOWMANID = c.ID WHERE a.ID = #{id}
+	</select>
+	
+	<select id="getList1" resultMap="CustomInfoMap">
+		SELECT a.ID,a.CUSTOMID,a.FOLLOWMANID,a.STATU,a.STARTDATE,a.LASTFOLLOWDATE,a.PLANDATE,a.MARK,b.NAME,c.USERNAME FROM CUSTOMINFO a LEFT JOIN CUSTOM b ON a.CUSTOMID = b.ID LEFT JOIN EMPLOYEE c ON a.FOLLOWMANID = c.ID 
+	</select>
+	
+	<select id="getList2" parameterType="com.examsys.po.Admin" resultMap="CustomInfoMap">
+		SELECT a.ID,a.CUSTOMID,a.FOLLOWMANID,a.STATU,a.STARTDATE,a.LASTFOLLOWDATE,a.PLANDATE,a.MARK,b.NAME,c.USERNAME FROM CUSTOMINFO a LEFT JOIN CUSTOM b ON a.CUSTOMID = b.ID LEFT JOIN EMPLOYEE c ON a.FOLLOWMANID = c.ID  
+		<where>
+			<if test="id!=null">
+				 AND a.ID=#{id}
+			</if>
+			<if test="statu!=null">
+				 AND a.STATU=#{statu}
+			</if>
+			<if test="custom!=null and custom.name!=null">
+				 AND a.NAME=#{custom.name}
+			</if>
+			<if test="custom!=null and custom.id!=null">
+				 AND a.CUSTOMID=#{custom.id}
+			</if>
+			<if test="employee!=null and employee.id!=null">
+				 AND a.FOLLOWMANID=#{employee.id}
+			</if>
+			
+			<trim prefix="WHERE" prefixOverrides="AND|OR"></trim>
+		</where>
+	</select>
+	
+</mapper>

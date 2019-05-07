@@ -80,8 +80,15 @@ public class LoginController {
 		
 		log.info("接收到登录信息:"+employee+",验证码:"+code);//把admin放到日志
 		ModelAndView mv = new ModelAndView();//创建视图模型对象
-		mv.addObject("user_name", employee.getUsername());
-		mv.addObject("user_pass", employee.getPass());
+		if(employee.getUsername()!=null && employee.getPass()!=null){//如果拿不到管理员
+			mv.addObject("user_name", employee.getUsername());
+			mv.addObject("user_pass", employee.getPass());
+		}else{
+			mv.addObject("msg", "账号密码不能为空");
+			mv.setViewName("index");//如果不匹配则返回登录页
+			return mv;
+		}
+		
 		mv.addObject("code", code);
 		req.getSession().setAttribute("username", employee.getUsername());
 		
@@ -98,13 +105,13 @@ public class LoginController {
 			Employee dEmployee = employeeService.getByName(employee.getUsername());
 			
 			if(dEmployee==null){//如果拿不到管理员
-				mv.addObject("msg", "账号不存在");
+				mv.addObject("msg", "账号密码不正确");
 				mv.setViewName("index");//如果不匹配则返回登录页
 				return mv;
 			}
 			
 			if(!employee.getPass().equals(dEmployee.getPass())){//验证当前录入的密码与数据库返回来的密码是否相等
-				mv.addObject("msg", "密码不正确");
+				mv.addObject("msg", "账号密码不正确");
 				mv.setViewName("index");//如果不匹配则返回登录页
 				return mv;
 			}

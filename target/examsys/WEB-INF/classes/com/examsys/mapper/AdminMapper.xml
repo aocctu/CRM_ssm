@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- dao接口的路径 -->
+<mapper namespace="com.examsys.dao.AdminDao">
+
+	<insert id="add" parameterType="com.examsys.po.Admin">
+		Insert into ADMIN (ROLE_ID,USER_NAME,USER_PASS,PHONE,LOGIN_TIMES,CREATE_DATE,LOGIN_DATE,STATUS,REMARK) values (#{adminRoles.id},#{user_name},#{user_pass},#{phone},#{login_times},#{create_date},#{login_date},#{status},#{remark})
+	</insert>
+
+	<update id="update" parameterType="com.examsys.po.Admin">
+		UPDATE ADMIN SET ROLE_ID=#{adminRoles.id},USER_NAME=#{user_name},USER_PASS=#{user_pass},PHONE=#{phone},LOGIN_TIMES=#{login_times},CREATE_DATE=#{create_date},LOGIN_DATE=#{login_date},STATUS=#{status},REMARK=#{remark} WHERE ID=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM ADMIN WHERE ID=#{id}
+	</delete>
+	
+	<!-- 创建数据库表 -->
+	<resultMap type="com.examsys.po.Admin" id="adminMap">
+		<id property="id" column="ID"></id>
+		<result property="user_name" column="USER_NAME"></result>
+		<result property="user_pass" column="USER_PASS"></result>
+		<result property="phone" column="PHONE"></result>
+		<result property="login_times" column="LOGIN_TIMES"></result>
+		<result property="create_date" column="CREATE_DATE"></result>
+		<result property="login_date" column="LOGIN_DATE"></result>
+		<result property="status" column="STATUS"></result>
+		<result property="remark" column="REMARK"></result>
+		<association property="adminRoles" javaType="com.examsys.po.AdminRoles">
+			<id property="id" column="ROLE_ID"/>
+			<result property="role_name" column="ROLE_NAME"></result>
+			<result property="role_privelege" column="ROLE_PRIVELEGE"></result>
+		</association>
+	</resultMap>
+
+	<select id="get" parameterType="java.lang.Integer" resultMap="adminMap">
+		SELECT a.ID,a.ROLE_ID,a.USER_NAME,a.USER_PASS,a.PHONE,a.LOGIN_TIMES,a.CREATE_DATE,a.LOGIN_DATE,a.STATUS,a.REMARK,b.ROLE_NAME,b.ROLE_PRIVELEGE FROM ADMIN a LEFT JOIN ADMIN_ROLES b ON a.ROLE_ID=b.id WHERE a.ID=#{id}
+	</select>
+	
+	<select id="getAllAdminList" resultMap="adminMap">
+		SELECT a.ID,a.ROLE_ID,a.USER_NAME,a.USER_PASS,a.PHONE,a.LOGIN_TIMES,a.CREATE_DATE,a.LOGIN_DATE,a.STATUS,a.REMARK,b.ROLE_NAME,b.ROLE_PRIVELEGE FROM ADMIN a LEFT JOIN ADMIN_ROLES b ON a.ROLE_ID=b.ID
+	</select>
+	
+	<select id="getAdminListByCase" parameterType="com.examsys.po.Admin" resultMap="adminMap">
+		SELECT a.ID,a.ROLE_ID,a.USER_NAME,a.USER_PASS,a.PHONE,a.LOGIN_TIMES,a.CREATE_DATE,a.LOGIN_DATE,a.STATUS,a.REMARK,b.ROLE_NAME,b.ROLE_PRIVELEGE FROM ADMIN a LEFT JOIN ADMIN_ROLES b ON a.ROLE_ID=b.ID 
+		<where>
+			<if test="id!=null">
+				 AND a.ID=#{id}
+			</if>
+			<if test="user_name!=null">
+				 AND a.USER_NAME LIKE concat(concat('%',#{user_name}),'%')
+			</if>
+			<if test="adminRoles!=null and adminRoles.id!=null">
+				 AND a.ROLE_ID=#{adminRoles.id}
+			</if>
+			<trim prefix="WHERE" prefixOverrides="AND|OR"></trim>
+		</where>
+	</select>
+	
+	<select id="getAdminByUserName" parameterType="java.lang.String" resultMap="adminMap">
+		SELECT a.ID,a.ROLE_ID,a.USER_NAME,a.USER_PASS,a.PHONE,a.LOGIN_TIMES,a.CREATE_DATE,a.LOGIN_DATE,a.STATUS,a.REMARK,b.ROLE_NAME,b.ROLE_PRIVELEGE FROM ADMIN a LEFT JOIN ADMIN_ROLES b ON a.ROLE_ID=b.id WHERE a.USER_NAME=#{user_name}
+	</select>
+</mapper>

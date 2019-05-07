@@ -1,7 +1,5 @@
 package com.examsys.po;
 
-import java.sql.Date;
-
 /**
  * 快递录入实体类
  * @author Administrator
@@ -16,7 +14,7 @@ public class Express {
 	private double exp_cost;//费用
 	private String exp_num;//快递单号
 	private String exp_status;//状态
-	private Date create_date;//创建时间
+	private String create_date;//创建时间
 	private String remark;//备注
 	
 	private ExpressCompany expressCompany;//快递公司
@@ -30,7 +28,7 @@ public class Express {
 	
 
 	public Express(Integer id, String exp_iphone, String exp_name, String pay_type, double exp_cost, String exp_num,
-			String exp_status, Date create_date, String remark, ExpressCompany expressCompany, String create_name) {
+			String exp_status, String create_date, String remark, ExpressCompany expressCompany, String create_name) {
 		super();
 		this.id = id;
 		this.exp_iphone = exp_iphone;
@@ -134,13 +132,13 @@ public class Express {
 
 
 
-	public Date getCreate_date() {
+	public String getCreate_date() {
 		return create_date;
 	}
 
 
 
-	public void setCreate_date(Date create_date) {
+	public void setCreate_date(String create_date) {
 		this.create_date = create_date;
 	}
 

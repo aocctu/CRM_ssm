@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- dao接口的路径 -->
+<mapper namespace="com.examsys.dao.DepartmentDao">
+	
+	<insert id="add" parameterType="com.examsys.po.Department">
+		Insert into DEPARTMENT (DNAME) values (#{dname})
+	</insert>
+	
+	<update id="update" parameterType="com.examsys.po.Department">
+		UPDATE DEPARTMENT SET DNAME=#{dname} WHERE ID=#{id}
+	</update>
+	
+	
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM DEPARTMENT WHERE ID = #{id}
+	</delete>
+	
+	<resultMap type="com.examsys.po.Department" id="departmentMap">
+		<id property="id" column="ID"/>
+		<result property="dname" column="DNAME"/>
+	</resultMap>
+	
+	<select id="get" parameterType="java.lang.Integer" resultMap="departmentMap">
+		SELECT * FROM DEPARTMENT WHERE ID = #{id}
+	</select>
+	
+	<select id="getList1" resultMap="departmentMap">
+		SELECT * FROM DEPARTMENT
+	</select>
+	
+	<select id="getList2" parameterType="com.examsys.dao.DepartmentDao" resultMap="departmentMap">
+		SELECT * FROM DEPARTMENT a
+		<where>
+			<if test="id != null">
+				AND a.ID = #{id}
+			</if>
+			<if test="dname != null">
+				AND a.DNAME LIKE concat(concat('%',#{dname}),'%')
+			</if>
+			<trim prefix="WHERE" prefixOverrides="AND/OR"></trim>
+		</where>
+	</select>
+	
+	
+</mapper>

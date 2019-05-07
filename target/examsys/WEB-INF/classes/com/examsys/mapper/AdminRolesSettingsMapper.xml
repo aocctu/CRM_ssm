@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- dao接口的路径 -->
+<mapper namespace="com.examsys.dao.AdminRolesSettingsDao">
+
+	<insert id="add" parameterType="com.examsys.po.AdminRolesSettings">
+		Insert into ADMIN_ROLES_SETTINGS (NAME,CODE,PARENT_ID,PORDER,URL) values (#{name},#{code},#{adminRolesSettings.id},#{porder},#{url})
+	</insert>
+
+	<update id="update" parameterType="com.examsys.po.AdminRolesSettings">
+		UPDATE ADMIN_ROLES_SETTINGS SET NAME=#{name},CODE=#{code}
+		<if test="adminRolesSettings!=null and adminRolesSettings.id!=null and adminRolesSettings.id!=''">
+			,PARENT_ID=#{adminRolesSettings.id}
+		</if>
+		,PORDER=#{porder},URL=#{url} WHERE ID=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM ADMIN_ROLES_SETTINGS WHERE ID=#{id}
+	</delete>
+	
+	<resultMap type="com.examsys.po.AdminRolesSettings" id="AdminRolesSettingsMap">
+		<id property="id" column="ID"></id>
+		<result property="name" column="NAME"></result>
+		<result property="code" column="CODE"></result>
+		<result property="porder" column="PORDER"></result>
+		<result property="url" column="URL"></result>
+		<association property="adminRolesSettings" column="PARENT_ID" javaType="com.examsys.po.AdminRolesSettings" select="get">
+		</association>
+		<collection property="children" javaType="java.util.ArrayList" column="id" ofType="com.examsys.po.AdminRolesSettings" select="getChildrenAdminRolesSettingsList"/>
+	</resultMap>
+
+	<resultMap type="com.examsys.po.AdminRolesSettings" id="AdminRolesSettingsMap2">
+		<id property="id" column="ID"></id>
+		<result property="name" column="NAME"></result>
+		<result property="code" column="CODE"></result>
+		<result property="porder" column="PORDER"></result>
+		<result property="url" column="URL"></result>
+		<collection property="children" javaType="java.util.ArrayList" column="id" ofType="com.examsys.po.AdminRolesSettings" select="getChildrenAdminRolesSettingsList"/>
+	</resultMap>
+	<select id="get" parameterType="java.lang.Integer" resultMap="AdminRolesSettingsMap">
+	    SELECT a.ID,a.NAME,a.CODE,a.PARENT_ID,a.PORDER,a.URL,b.NAME PARENT_NAME,b.CODE PARENT_CODE,b.PORDER PARENT_PORDER  FROM ADMIN_ROLES_SETTINGS a LEFT JOIN ADMIN_ROLES_SETTINGS b ON a.PARENT_ID=b.ID WHERE a.ID=#{id}
+	</select>
+	
+	<select id="getAllAdminRolesSettingsList" resultMap="AdminRolesSettingsMap">
+		SELECT a.ID,a.NAME,a.CODE,a.PARENT_ID,a.PORDER,a.URL,b.NAME PARENT_NAME,b.CODE PARENT_CODE,b.PORDER PARENT_PORDER  FROM ADMIN_ROLES_SETTINGS a LEFT JOIN ADMIN_ROLES_SETTINGS b ON a.PARENT_ID=b.ID
+	</select>
+	
+	<select id="getChildrenAdminRolesSettingsList" parameterType="java.lang.Integer" resultMap="AdminRolesSettingsMap2">
+		SELECT a.ID,a.NAME,a.CODE,a.PARENT_ID,a.PORDER,a.URL,b.NAME PARENT_NAME,b.CODE PARENT_CODE,b.PORDER PARENT_PORDER  FROM ADMIN_ROLES_SETTINGS a LEFT JOIN ADMIN_ROLES_SETTINGS b ON a.PARENT_ID=b.ID WHERE 
+		
+		<if test="_parameter!=null and _parameter!=''">
+			a.PARENT_ID=#{parent_id}
+		</if>
+		<if test="_parameter==null or _parameter==''">
+			 a.PARENT_ID IS NULL
+		</if>
+	</select>
+	
+	<select id="getAdminRolesSettingsListByCase" parameterType="com.examsys.po.AdminRolesSettings" resultMap="AdminRolesSettingsMap">
+		SELECT a.ID,a.NAME,a.CODE,a.PARENT_ID,a.PORDER,a.URL,b.NAME PARENT_NAME,b.CODE PARENT_CODE,b.PORDER PARENT_PORDER  FROM ADMIN_ROLES_SETTINGS a LEFT JOIN ADMIN_ROLES_SETTINGS b ON a.PARENT_ID=b.ID
+		<where>
+			<if test="id!=null">
+				 AND a.ID=#{id}
+			</if>
+			<if test="code!=null">
+				 AND a.CODE LIKE concat(concat('%',#{code}),'%')
+			</if>
+			<if test="name!=null">
+				 AND a.NAME LIKE concat(concat('%',#{name}),'%')
+			</if>
+			<if test="adminRolesSettings!=null and adminRolesSettings.id!=null">
+				 AND a.PARENT_ID=#{adminRolesSettings.id}
+			</if>
+		
+			<if test="adminRolesSettings!=null and adminRolesSettings.id==null">
+				 AND a.PARENT_ID is null
+			</if>
+			<trim prefix="WHERE" prefixOverrides="AND|OR"></trim>
+		</where>
+	</select>
+</mapper>

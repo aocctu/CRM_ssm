@@ -2,8 +2,9 @@ package com.examsys.controller;
 
 
 
-import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,10 +81,16 @@ public class ExpressController {
 			Employee employee = (Employee)req.getSession().getAttribute("EMPLOYEE");
 			express.setExpressCompany(expressCompany);
 			express.setCreate_name(employee.getUsername());
-			express.setCreate_date(new Date(System.currentTimeMillis()));
+			
+			Date d = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String dateNowStr = sdf.format(d);
+			express.setCreate_date(dateNowStr);
+			
 			express.setExp_status("1");
 			
 			boolean flag = expressService.add(express);
+			System.out.println(express+"------");
 			if(flag){
 				jsonDatas.put("status", 1);//设置状态为1，表示操作成功
 			}

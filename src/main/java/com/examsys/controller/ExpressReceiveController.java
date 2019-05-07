@@ -62,38 +62,6 @@ public class ExpressReceiveController {
 		return expressCompanyList;
 	}
 	
-	/**
-	 * 保存添加
-	 * @param express
-	 * @param req
-	 * @param exp_company_id
-	 * @return
-	 */
-	@RequestMapping("addSave")
-	public @ResponseBody Map addSave(Express express,HttpServletRequest req,
-			@RequestParam(name="exp_company_id",required=true) Integer exp_company_id){
-		log.info("接收到页面添加的数据："+ express +",快递公司编号："+ exp_company_id);
-		Map jsonDatas = new HashMap(); //存放json数据的集合
-		jsonDatas.put("status", 0); //默认状态为0，表示操作失败
-		try {
-			ExpressCompany expressCompany = expressCompanyService.get(exp_company_id);
-			Employee employee = (Employee)req.getSession().getAttribute("EMPLOYEE");
-			express.setExpressCompany(expressCompany);
-			express.setCreate_name(employee.getUsername());
-			express.setCreate_date(new Date(System.currentTimeMillis()));
-			express.setExp_status("1");
-			
-			boolean flag = expressService.add(express);
-			if(flag){
-				jsonDatas.put("status", 1);//设置状态为1，表示操作成功
-			}
-			
-		} catch (Exception e) {
-			log.error("添加失败",e);
-		}
-		
-		return jsonDatas;
-	}
 	
 	/**
 	 * 初始化修改
@@ -124,13 +92,11 @@ public class ExpressReceiveController {
 	public @ResponseBody Map updateSave(Express express){
 		log.info("接收到要修改的数据为："+express);
 		Map jsonDatas = new HashMap<>();
-		System.out.println("--------------------");
 		jsonDatas.put("status", 0);
 		try {
 			Express oldExpress = expressService.get(express.getId());
 			oldExpress.setExp_status("2");
 
-			System.out.println(oldExpress + "-----------++++++++");
 			boolean flag = expressService.update(oldExpress);
 			if(flag){
 				jsonDatas.put("status", 1);

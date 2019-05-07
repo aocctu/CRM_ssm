@@ -2,10 +2,9 @@ package com.examsys.dao;
 
 import java.util.List;
 
-import com.examsys.po.Custom;
 import com.examsys.po.Express;
 /**
- * 快递管理
+ * 快递管理表持久层
  * @author Administrator
  *
  */

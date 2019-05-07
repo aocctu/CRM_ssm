@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- dao接口的路径 -->
+<mapper namespace="com.examsys.dao.ConsultRecordDao">
+
+	 <insert id="add" parameterType="com.examsys.po.ConsultRecord">
+		INSERT INTO CONSULTRECORD (CUSTOMID,CONSULTMANID,CONSULTSTATU,CONSULTDATE,RESULT) value (#{custom.id},#{employee.id},#{consultStatu},#{consultDate},#{result})
+	</insert>
+
+	<update id="update" parameterType="com.examsys.po.ConsultRecord">
+		UPDATE CONSULTRECORD SET CUSTOMID=#{custom.id},CONSULTMANID=#{employee.id},CONSULTSTATU=#{consultStatu},CONSULTDATE=#{consultDate},RESULT=#{result} WHERE ID=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM CONSULTRECORD WHERE ID=#{id}
+	</delete>
+	
+	<resultMap type="com.examsys.po.ConsultRecord" id="ConsultRecordMap">
+		<id property="id" column="ID"></id>
+		<result property="consultStatu" column="CONSULTSTATU"></result>
+		<result property="consultDate" column="CONSULTDATE"></result>
+		<result property="result" column="RESULT"></result>
+		
+		<association property="custom" javaType="com.examsys.po.Custom">
+			<id property="id" column="CUSTOMID"/>
+			<result property="name" column="NAME"></result>
+		</association>
+		
+		<association property="employee" javaType="com.examsys.po.Employee">
+			<id property="id" column="CONSULTMANID"/>
+			<result property="username" column="USERNAME"></result>
+		</association>
+	</resultMap>
+
+	<select id="get" parameterType="java.lang.Integer" resultMap="ConsultRecordMap">
+		SELECT a.ID,a.CUSTOMID,a.CONSULTMANID,a.CONSULTSTATU,a.CONSULTDATE,a.RESULT,b.NAME,c.USERNAME FROM CONSULTRECORD a LEFT JOIN CUSTOM b ON a.CUSTOMID = b.ID LEFT JOIN EMPLOYEE c ON a.CONSULTMANID = c.ID WHERE a.ID = #{id}
+	</select>
+	
+	<select id="getList1" resultMap="ConsultRecordMap">
+		SELECT a.ID,a.CUSTOMID,a.CONSULTMANID,a.CONSULTSTATU,a.CONSULTDATE,a.RESULT,b.NAME,c.USERNAME FROM CONSULTRECORD a LEFT JOIN CUSTOM b ON a.CUSTOMID = b.ID LEFT JOIN EMPLOYEE c ON a.CONSULTMANID = c.ID 
+	</select>
+	
+	<select id="getList2" parameterType="com.examsys.po.ConsultRecord" resultMap="ConsultRecordMap">
+		SELECT a.ID,a.CUSTOMID,a.CONSULTMANID,a.CONSULTSTATU,a.CONSULTDATE,a.RESULT,b.NAME,c.USERNAME FROM CONSULTRECORD a LEFT JOIN CUSTOM b ON a.CUSTOMID = b.ID LEFT JOIN EMPLOYEE c ON a.CONSULTMANID = c.ID  
+		<where>
+			<if test="id!=null">
+				 AND a.ID=#{id}
+			</if>
+			<if test="custom !=null and custom.id!=null">
+				 AND a.CUSTOMID=#{custom.id}
+			</if>
+			<trim prefix="WHERE" prefixOverrides="AND|OR"></trim>
+		</where>
+	</select>
+</mapper>
