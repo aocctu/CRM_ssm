@@ -18,6 +18,8 @@ public class ExpressSort {
 	private String remark; //备注
 	private String color; //颜色
 	private String sn;
+	private String create_name;//分捡人员
+	private String create_date;//创建时间 
 	
 	public ExpressSort() {
 		super();
@@ -25,7 +27,7 @@ public class ExpressSort {
 	}
 
 	public ExpressSort(Integer id, String exp_num, String model, String material_type, String quantity, String fault,
-			String type, String remark, String color, String sn) {
+			String type, String remark, String color, String sn, String create_name, String create_date) {
 		super();
 		this.id = id;
 		this.exp_num = exp_num;
@@ -37,6 +39,8 @@ public class ExpressSort {
 		this.remark = remark;
 		this.color = color;
 		this.sn = sn;
+		this.create_name = create_name;
+		this.create_date = create_date;
 	}
 
 	public Integer getId() {
@@ -119,11 +123,28 @@ public class ExpressSort {
 		this.sn = sn;
 	}
 
+	public String getcreate_name() {
+		return create_name;
+	}
+
+	public void setcreate_name(String create_name) {
+		this.create_name = create_name;
+	}
+
+	public String getCreate_date() {
+		return create_date;
+	}
+
+	public void setCreate_date(String create_date) {
+		this.create_date = create_date;
+	}
+
 	@Override
 	public String toString() {
 		return "ExpressSort [id=" + id + ", exp_num=" + exp_num + ", model=" + model + ", material_type="
 				+ material_type + ", quantity=" + quantity + ", fault=" + fault + ", type=" + type + ", remark="
-				+ remark + ", color=" + color + ", sn=" + sn + "]";
+				+ remark + ", color=" + color + ", sn=" + sn + ", create_name=" + create_name + ", create_date="
+				+ create_date + "]";
 	}
 
 	@Override
@@ -131,6 +152,7 @@ public class ExpressSort {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((color == null) ? 0 : color.hashCode());
+		result = prime * result + ((create_date == null) ? 0 : create_date.hashCode());
 		result = prime * result + ((exp_num == null) ? 0 : exp_num.hashCode());
 		result = prime * result + ((fault == null) ? 0 : fault.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -138,6 +160,7 @@ public class ExpressSort {
 		result = prime * result + ((model == null) ? 0 : model.hashCode());
 		result = prime * result + ((quantity == null) ? 0 : quantity.hashCode());
 		result = prime * result + ((remark == null) ? 0 : remark.hashCode());
+		result = prime * result + ((create_name == null) ? 0 : create_name.hashCode());
 		result = prime * result + ((sn == null) ? 0 : sn.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
@@ -156,6 +179,11 @@ public class ExpressSort {
 			if (other.color != null)
 				return false;
 		} else if (!color.equals(other.color))
+			return false;
+		if (create_date == null) {
+			if (other.create_date != null)
+				return false;
+		} else if (!create_date.equals(other.create_date))
 			return false;
 		if (exp_num == null) {
 			if (other.exp_num != null)
@@ -192,6 +220,11 @@ public class ExpressSort {
 				return false;
 		} else if (!remark.equals(other.remark))
 			return false;
+		if (create_name == null) {
+			if (other.create_name != null)
+				return false;
+		} else if (!create_name.equals(other.create_name))
+			return false;
 		if (sn == null) {
 			if (other.sn != null)
 				return false;
@@ -203,7 +236,6 @@ public class ExpressSort {
 		} else if (!type.equals(other.type))
 			return false;
 		return true;
-	} 
-	
-	
+	}
+
 }

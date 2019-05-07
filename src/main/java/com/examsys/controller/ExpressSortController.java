@@ -2,7 +2,9 @@ package com.examsys.controller;
 
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.examsys.po.Employee;
 import com.examsys.po.Express;
 import com.examsys.po.ExpressSort;
 import com.examsys.service.ExpressSortService;
@@ -42,20 +45,28 @@ public class ExpressSortController {
 	
 	/**
 	 * 保存添加
-	 * @param express
+	 * @param expressSort
 	 * @param req
-	 * @param exp_company_id
 	 * @return
 	 */
 	@RequestMapping("addSave")
-	public @ResponseBody Map addSave(Express express,HttpServletRequest req,
-			@RequestParam(name="exp_company_id",required=true) Integer exp_company_id){
-		log.info("接收到页面添加的数据："+ express +",快递公司编号："+ exp_company_id);
+	public @ResponseBody Map addSave(ExpressSort expressSort,HttpServletRequest req){
+		log.info("接收到页面添加的数据："+ expressSort );
 		Map jsonDatas = new HashMap(); //存放json数据的集合
 		jsonDatas.put("status", 0); //默认状态为0，表示操作失败
 		try {
+			Employee employee = (Employee) req.getSession().getAttribute("EMPLOYEE");
+			expressSort.setcreate_name(employee.getUsername());
 			
-			
+			Date d = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String dateNowStr = sdf.format(d);
+			expressSort.setCreate_date(dateNowStr);
+
+			boolean flag = expressSortService.add(expressSort);
+			if(flag){
+				jsonDatas.put("status", 1);
+			}
 			
 		} catch (Exception e) {
 			log.error("添加失败",e);
@@ -85,17 +96,30 @@ public class ExpressSortController {
 	
 	/**
 	 * 保存修改
-	 * @param express
-	 * @param exp_company_id
+	 * @param expressSort
 	 * @return
 	 */
 	@RequestMapping("/updateSave")
-	public @ResponseBody Map updateSave(Express express,
-			@RequestParam(name="exp_company_id",required=true)Integer exp_company_id){
-		log.info("接收到要修改的数据为："+express);
+	public @ResponseBody Map updateSave(ExpressSort expressSort){
+		log.info("接收到要修改的数据为："+expressSort);
 		Map jsonDatas = new HashMap<>();
 		jsonDatas.put("status", 0);
 		try {
+			ExpressSort oldexpressSort = expressSortService.get(expressSort.getId());
+			oldexpressSort.setExp_num(expressSort.getExp_num());
+			oldexpressSort.setModel(expressSort.getModel());
+			oldexpressSort.setMaterial_type(expressSort.getMaterial_type());
+			oldexpressSort.setQuantity(expressSort.getQuantity());
+			oldexpressSort.setFault(expressSort.getFault());
+			oldexpressSort.setType(expressSort.getType());
+			oldexpressSort.setRemark(expressSort.getRemark());
+			oldexpressSort.setColor(expressSort.getColor());
+			oldexpressSort.setSn(expressSort.getSn());
+			
+			boolean flag = expressSortService.update(oldexpressSort);
+			if(flag){
+				jsonDatas.put("status", 1);
+			}
 			
 		} catch (Exception e) {
 			log.error("修改失败",e);

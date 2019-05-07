@@ -6,15 +6,15 @@
 <mapper namespace="com.examsys.dao.ExpressSortDao">
 
 	<insert id="add" parameterType="com.examsys.po.ExpressSort">
-		Insert into ExpressSort (EXP_IPHONE,EXP_NAME,PAY_TYPE,EXP_COST,EXP_COMPANY_ID,EXP_NUM,EXP_STATUS,CREATE_NAME,CREATE_DATE,REMARK) values (#{exp_iphone},#{exp_name},#{pay_type},#{exp_cost},#{expressCompany.id},#{exp_num},#{exp_status},#{create_name},#{create_date},#{remark})
+		Insert into EXPRESSSORT (EXP_NUM,MODEL,MATERIAL_TYPE,QUANTITY,FAULT,TYPE,REMARK,COLOR,SN,CREATE_NAME,CREATE_DATE) values (#{exp_num},#{model},#{material_type},#{quantity},#{fault},#{type},#{remark},#{color},#{sn},#{create_name},#{create_date})
 	</insert>
 
 	<update id="update" parameterType="com.examsys.po.ExpressSort">
-		UPDATE ExpressSort SET EXP_IPHONE=#{exp_iphone},EXP_NAME=#{exp_name},PAY_TYPE=#{pay_type},EXP_COST=#{exp_cost},EXP_COMPANY_ID=#{expressCompany.id},EXP_NUM=#{exp_num},EXP_STATUS=#{exp_status},CREATE_NAME=#{create_name},CREATE_DATE=#{create_date},REMARK=#{remark} WHERE ID=#{id}
+		UPDATE EXPRESSSORT SET EXP_NUM=#{exp_num},MODEL=#{model},MATERIAL_TYPE=#{material_type},QUANTITY=#{quantity},FAULT=#{fault},TYPE=#{type},REMARK=#{remark},COLOR=#{color},SN=#{sn},CREATE_NAME=#{create_name},CREATE_DATE=#{create_date} WHERE ID=#{id}
 	</update>
 	
 	<delete id="delete" parameterType="java.lang.Integer">
-		DELETE FROM ExpressSort WHERE ID=#{id}
+		DELETE FROM EXPRESSSORT WHERE ID=#{id}
 	</delete>
 	
 	<!-- 创建数据库表 -->
@@ -29,19 +29,21 @@
 		<result property="remark" column="REMARK"/>
 		<result property="color" column="COLOR"/>
 		<result property="sn" column="SN"/>
+		<result property="create_name" column="CREATE_NAME"/>
+		<result property="create_date" column="CREATE_DATE"/>
 		
 	</resultMap>
 
 	<select id="get" parameterType="java.lang.Integer" resultMap="expressSortMap">
-		SELECT a.ID,a.EXP_NUM,a.MODEL,a.MATERIAL_TYPE,a.QUANTITY,a.FAULT,a.TYPE,a.REMARK,a.COLOR,a.SN FROM EXPRESSSORT a  WHERE a.ID=#{id}
+		SELECT a.ID,a.EXP_NUM,a.MODEL,a.MATERIAL_TYPE,a.QUANTITY,a.FAULT,a.TYPE,a.REMARK,a.COLOR,a.SN,a.CREATE_NAME,a.CREATE_DATE FROM EXPRESSSORT a  WHERE a.ID=#{id}
 	</select>
 	
 	<select id="getList1" resultMap="expressSortMap">
-		SELECT a.ID,a.EXP_NUM,a.MODEL,a.MATERIAL_TYPE,a.QUANTITY,a.FAULT,a.TYPE,a.REMARK,a.COLOR,a.SN FROM EXPRESSSORT a 
+		SELECT a.ID,a.EXP_NUM,a.MODEL,a.MATERIAL_TYPE,a.QUANTITY,a.FAULT,a.TYPE,a.REMARK,a.COLOR,a.SN,a.CREATE_NAME,a.CREATE_DATE FROM EXPRESSSORT a 
 	</select>
 	
 	<select id="getList2" parameterType="com.examsys.po.ExpressSort" resultMap="expressSortMap">
-		SELECT a.ID,a.EXP_NUM,a.MODEL,a.MATERIAL_TYPE,a.QUANTITY,a.FAULT,a.TYPE,a.REMARK,a.COLOR,a.SN FROM EXPRESSSORT a 
+		SELECT a.ID,a.EXP_NUM,a.MODEL,a.MATERIAL_TYPE,a.QUANTITY,a.FAULT,a.TYPE,a.REMARK,a.COLOR,a.SN,a.CREATE_NAME,a.CREATE_DATE FROM EXPRESSSORT a 
 		<where>
 			<if test="id!=null">
 				 AND a.ID=#{id}
@@ -51,6 +53,15 @@
 			</if>
 			<if test="model!=null">
 				 AND a.MODEL =#{model}
+			</if>
+			<if test="material_type!=null">
+				 AND a.MATERIAL_TYPE =#{material_type}
+			</if>
+			<if test="type!=null">
+				 AND a.TYPE =#{type}
+			</if>
+			<if test="color!=null">
+				 AND a.COLOR =#{color}
 			</if>
 		
 			

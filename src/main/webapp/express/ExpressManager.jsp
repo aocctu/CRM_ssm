@@ -8,11 +8,6 @@
 	<c:import url="/header.jsp"></c:import>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/express.js"></script>
 </head>
-<script type="text/javascript">
-
-
-
-</script>
 
  <body class="easyui-layout">
  	<div class="easyui-panel" style="height:754px;padding:10px;">
@@ -42,7 +37,7 @@
 	            <table>
 	                <tr>
 	                    <td>快递员手机号:</td>
-	                    <td><input class="easyui-textbox" type="text" name="exp_iphone" data-options="required:true"></input></td>
+	                    <td><input class="easyui-numberbox" type="text" name="exp_iphone" data-options="required:true"></input></td>
 	                </tr>
 	                <tr>
 	                    <td>快递员名字:</td>
@@ -59,7 +54,7 @@
 	                </tr>
 	                <tr>
 	                    <td>费用:</td>
-	                    <td><input id="exp_cost" class="easyui-textbox" type="text" name="exp_cost" data-options="required:false" disabled></input></td>
+	                    <td><input id="exp_cost" class="easyui-numberbox" type="text" name="exp_cost" data-options="required:false" disabled></input></td>
 	                </tr>
 	                <tr>
 	                    <td>快递公司:</td>
@@ -103,7 +98,7 @@
 	            <table>
 	                <tr>
 	                    <td>快递员手机号:</td>
-	                    <td><input class="easyui-textbox" type="text" name="exp_iphone"></input></td>
+	                    <td><input class="easyui-numberbox" type="text" name="exp_iphone"></input></td>
 	                </tr>
 	                <tr>
 	                    <td>快递员名字:</td>
@@ -162,7 +157,7 @@
 	                </tr>
 	                <tr>
 	                    <td>快递员手机号:</td>
-	                    <td><input class="easyui-textbox" type="text" name="exp_iphone" data-options="required:true"></input></td>
+	                    <td><input class="easyui-numberbox" type="text" name="exp_iphone" data-options="required:true"></input></td>
 	                </tr>
 	                <tr>
 	                    <td>快递员名字:</td>
@@ -179,7 +174,7 @@
 	                </tr>
 	                <tr>
 	                    <td>费用:</td>
-	                    <td><input class="easyui-textbox" type="text" name="exp_cost" data-options="required:false"></input></td>
+	                    <td><input class="easyui-numberbox" type="text" name="exp_cost" data-options="required:false"></input></td>
 	                </tr>
 	                <tr>
 	                    <td>快递公司:</td>

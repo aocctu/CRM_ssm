@@ -8,11 +8,7 @@
 	<c:import url="/header.jsp"></c:import>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/expressSort.js"></script>
 </head>
-<script type="text/javascript">
 
-
-
-</script>
 
  <body class="easyui-layout">
  	<div class="easyui-panel" style="height:754px;padding:10px;">
@@ -34,53 +30,58 @@
 		</table>
 	</div>
     
-	<div id="add" class="easyui-dialog" title="快递信息录入" 
+	<div id="add" class="easyui-dialog" title="快递分捡录入" 
 		data-options="modal:true,closed:true,iconCls:'icon-add',buttons:'#add-dlg-buttons'" 
 		style="width:500px;height:90%;padding:10px;">
 		<div style="padding:10px 0 10px 60px">
 			<form id="addForm" method="post">
 	            <table>
 	                <tr>
-	                    <td>快递员手机号:</td>
-	                    <td><input class="easyui-textbox" type="text" name="exp_iphone" data-options="required:true"></input></td>
+	                    <td>快递单号:</td>
+	                    <td><input class="easyui-textbox" type="text" name="exp_num" data-options="required:false"></input></td>
 	                </tr>
 	                <tr>
-	                    <td>快递员名字:</td>
-	                    <td><input class="easyui-textbox" type="text" name="exp_name" data-options="required:true"></input></td>
+	                    <td>机型:</td>
+	                    <td><input class="easyui-textbox" type="text" name="model" data-options="required:false"></input></td>
 	                </tr>
 	                <tr>
-	                    <td>付款类型:</td>
+	                    <td>物料类型:</td>
 	                    <td>
-	                    	<select id="pay_type" class="easyui-combobox" name="pay_type" style="width:170px;">
-					        	<option value="1" selected="selected">寄付</option>
-					        	<option value="0">到付</option>
+	                    	<select id="material_type" class="easyui-combobox" name="material_type" style="width:170px;">
+					        	<option value="1" selected="selected">整机</option>
+					        	<option value="2">主机</option>
+					        	<option value="3">配件</option>
 					    	</select>
 						</td>
 	                </tr>
 	                <tr>
-	                    <td>费用:</td>
-	                    <td><input id="exp_cost" class="easyui-textbox" type="text" name="exp_cost" data-options="required:false" disabled></input></td>
+	                    <td>数量:</td>
+	                    <td><input id="quantity" class="easyui-numberbox" type="text" name="quantity" data-options="required:false" disabled></input></td>
 	                </tr>
 	                <tr>
-	                    <td>快递公司:</td>
-		                <td><input class="easyui-combobox"
-				            name="exp_company_id"
-				            data-options="
-		                    url:'${pageContext.request.contextPath}/express/expressCompanyDatas',
-		                    valueField:'id',
-		                    textField:'exp_company',
-		                    panelHeight:'300'
-		            		"></td>
+	                    <td>来料故障:</td>
+	                    <td><input class="easyui-textbox" type="text" name="fault" data-options="required:false"></input></td>
 	                </tr>
 	                <tr>
-	                    <td>快递单号:</td>
-	                    <td><input class="easyui-textbox" type="text" name="exp_num" data-options="multiline:true,required:true" style="height: 100px"></input></td>
+	                    <td>类型:</td>
+	                    <td>
+	                    	<select id="pay_type" class="easyui-combobox" name="type" style="width:170px;">
+					        	<option value="1" selected="selected">保内</option>
+					        	<option value="2">保外</option>
+					    	</select>
+						</td>
 	                </tr>
-	                
-	                
 	                <tr>
 	                    <td>备注:</td>
 	                    <td><input class="easyui-textbox" type="text" name="remark" data-options="required:false"></input></td>
+	                </tr>
+	                <tr>
+	                    <td>颜色:</td>
+	                    <td><input class="easyui-textbox" type="text" name="color" data-options="required:false"></input></td>
+	                </tr>
+	                <tr>
+	                    <td>SN:</td>
+	                    <td><input id="sn" class="easyui-textbox" type="text" name="sn" data-options="multiline:true,required:false" style="height: 100px"></input></td>
 	                </tr>
 	            </table>
 	            
@@ -101,41 +102,39 @@
 		<div style="padding:10px 0 10px 60px">
 			<form id="searchForm" method="post">
 	            <table>
-	                <tr>
-	                    <td>快递员手机号:</td>
-	                    <td><input class="easyui-textbox" type="text" name="exp_iphone"></input></td>
+	               <tr>
+	                    <td>快递单号:</td>
+	                    <td><input class="easyui-textbox" type="text" name="exp_num" data-options="required:false"></input></td>
 	                </tr>
 	                <tr>
-	                    <td>快递员名字:</td>
-	                    <td><input class="easyui-textbox" type="text" name="exp_name"></input></td>
+	                    <td>机型:</td>
+	                    <td><input class="easyui-textbox" type="text" name="model" data-options="required:false"></input></td>
 	                </tr>
 	                <tr>
-	                    <td>付款类型:</td>
+	                    <td>物料类型:</td>
 	                    <td>
-	                    	<select class="easyui-combobox" name="pay_type" style="width:170px;" data-options="value:'',editable:false">
-					        	<option value="1" >寄付</option>
-					        	<option value="0">到付</option>
+	                    	<select id="material_type" class="easyui-combobox" name="material_type" data-options="value:'',editable:false" style="width:170px;">
+					        	<option value="1">整机</option>
+					        	<option value="2">主机</option>
+					        	<option value="3">配件</option>
 					    	</select>
 						</td>
 	                </tr>
-	                <!--  <tr>
-	                    <td>费用:</td>
-	                    <td><input class="easyui-textbox" type="text" name="exp_cost" ></input></td>
-	                </tr> -->
+	                
+	               
 	                <tr>
-	                    <td>快递公司:</td>
-		               <td><input class="easyui-combobox"
-				            name="expressCompany.id"
-				            data-options="
-		                    url:'${pageContext.request.contextPath}/express/expressCompanyDatas',
-		                    valueField:'id',
-		                    textField:'exp_company',
-		                    panelHeight:'300'
-		            		"></td>
+	                    <td>类型:</td>
+	                    <td>
+	                    	<select id="pay_type" class="easyui-combobox" name="type" data-options="value:'',editable:false" style="width:170px;">
+					        	<option value="1">保内</option>
+					        	<option value="2">保外</option>
+					    	</select>
+						</td>
 	                </tr>
+	               
 	                <tr>
-	                    <td>快递单号:</td>
-	                    <td><input class="easyui-textbox" type="text" name="exp_num" ></input></td>
+	                    <td>颜色:</td>
+	                    <td><input class="easyui-textbox" type="text" name="color" data-options="required:false"></input></td>
 	                </tr>
 	                
 	            </table>
@@ -149,7 +148,7 @@
     </div>
     
     
-    <div id="edit" class="easyui-dialog" title="修改快递信息" 
+    <div id="edit" class="easyui-dialog" title="修改快递分捡信息" 
     	data-options="modal:true,closed:true,iconCls:'icon-edit',buttons:'#edit-dlg-buttons'" 
 		style="width:500px;height:90%;padding:10px;">
 		<div style="padding:10px 0 10px 60px">
@@ -161,47 +160,51 @@
 	                    <td><input class="easyui-textbox" type="text" readonly="readonly" name="id" ></input></td>
 	                </tr>
 	                <tr>
-	                    <td>快递员手机号:</td>
-	                    <td><input class="easyui-textbox" type="text" name="exp_iphone" data-options="required:true"></input></td>
+	                    <td>快递单号:</td>
+	                    <td><input class="easyui-textbox" type="text" name="exp_num" data-options="required:false"></input></td>
 	                </tr>
 	                <tr>
-	                    <td>快递员名字:</td>
-	                    <td><input class="easyui-textbox" type="text" name="exp_name" data-options="required:true"></input></td>
+	                    <td>机型:</td>
+	                    <td><input class="easyui-textbox" type="text" name="model" data-options="required:false"></input></td>
 	                </tr>
 	                <tr>
-	                    <td>付款类型:</td>
+	                    <td>物料类型:</td>
 	                    <td>
-	                    	<select class="easyui-combobox" name="pay_type" style="width:170px;">
-					        	<option value="1" selected="selected">寄付</option>
-					        	<option value="0">到付</option>
+	                    	<select id="material_type" class="easyui-combobox" name="material_type" style="width:170px;">
+					        	<option value="1" selected="selected">整机</option>
+					        	<option value="2">主机</option>
+					        	<option value="3">配件</option>
 					    	</select>
 						</td>
 	                </tr>
 	                <tr>
-	                    <td>费用:</td>
-	                    <td><input class="easyui-textbox" type="text" name="exp_cost" data-options="required:false"></input></td>
+	                    <td>数量:</td>
+	                    <td><input id="quantity" class="easyui-numberbox" type="text" name="quantity" data-options="required:false"></input></td>
 	                </tr>
 	                <tr>
-	                    <td>快递公司:</td>
-		                <td><input class="easyui-combobox"
-				            name="expressCompany.id"
-				            id="edit_exp_company_id"
-				            data-options="
-		                    url:'${pageContext.request.contextPath}/express/expressCompanyDatas',
-		                    valueField:'id',
-		                    textField:'exp_company',
-		                    panelHeight:'300'
-		            		"></td>
+	                    <td>来料故障:</td>
+	                    <td><input class="easyui-textbox" type="text" name="fault" data-options="required:false"></input></td>
 	                </tr>
 	                <tr>
-	                    <td>快递单号:</td>
-	                    <td><input class="easyui-textbox" type="text" name="exp_num" data-options="required:true"></input></td>
+	                    <td>类型:</td>
+	                    <td>
+	                    	<select id="pay_type" class="easyui-combobox" name="type" style="width:170px;">
+					        	<option value="1" selected="selected">保内</option>
+					        	<option value="2">保外</option>
+					    	</select>
+						</td>
 	                </tr>
-	                
-	                
 	                <tr>
 	                    <td>备注:</td>
 	                    <td><input class="easyui-textbox" type="text" name="remark" data-options="required:false"></input></td>
+	                </tr>
+	                <tr>
+	                    <td>颜色:</td>
+	                    <td><input class="easyui-textbox" type="text" name="color" data-options="required:false"></input></td>
+	                </tr>
+	                <tr>
+	                    <td>SN:</td>
+	                    <td><input id="sn" class="easyui-textbox" type="text" name="sn" data-options="multiline:true,required:false" style="height: 100px"></input></td>
 	                </tr>
 	            </table>
 	            
