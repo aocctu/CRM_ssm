@@ -37,18 +37,18 @@
 	            <table>
 	                <tr>
 	                    <td>快递员手机号:</td>
-	                    <td><input class="easyui-numberbox" type="text" name="exp_iphone" data-options="required:true"></input></td>
+	                    <td><input class="easyui-numberbox" type="text" name="exp_iphone" data-options="required:false"></input></td>
 	                </tr>
 	                <tr>
 	                    <td>快递员名字:</td>
-	                    <td><input class="easyui-textbox" type="text" name="exp_name" data-options="required:true"></input></td>
+	                    <td><input class="easyui-textbox" type="text" name="exp_name" data-options="required:false"></input></td>
 	                </tr>
 	                <tr>
 	                    <td>付款类型:</td>
 	                    <td>
 	                    	<select id="pay_type" class="easyui-combobox" name="pay_type" style="width:170px;">
-					        	<option value="1" selected="selected">寄付</option>
-					        	<option value="0">到付</option>
+					        	<option value="寄付" selected="selected">寄付</option>
+					        	<option value="到付">到付</option>
 					    	</select>
 						</td>
 	                </tr>
@@ -69,7 +69,7 @@
 	                </tr>
 	                <tr>
 	                    <td>快递单号:</td>
-	                    <td><input class="easyui-textbox" type="text" name="exp_num" data-options="multiline:true,required:true" style="height: 100px"></input></td>
+	                    <td><input class="easyui-textbox" type="text" name="exp_num" data-options="multiline:true,required:false" style="height: 100px"></input></td>
 	                </tr>
 	                
 	                
@@ -108,8 +108,8 @@
 	                    <td>付款类型:</td>
 	                    <td>
 	                    	<select class="easyui-combobox" name="pay_type" style="width:170px;" data-options="value:'',editable:false">
-					        	<option value="1" >寄付</option>
-					        	<option value="0">到付</option>
+					        	<option value="寄付" >寄付</option>
+					        	<option value="到付">到付</option>
 					    	</select>
 						</td>
 	                </tr>
@@ -157,29 +157,29 @@
 	                </tr>
 	                <tr>
 	                    <td>快递员手机号:</td>
-	                    <td><input class="easyui-numberbox" type="text" name="exp_iphone" data-options="required:true"></input></td>
+	                    <td><input class="easyui-textbox" type="text" name="exp_iphone" data-options="required:false"></input></td>
 	                </tr>
 	                <tr>
 	                    <td>快递员名字:</td>
-	                    <td><input class="easyui-textbox" type="text" name="exp_name" data-options="required:true"></input></td>
+	                    <td><input class="easyui-textbox" type="text" name="exp_name" data-options="required:false"></input></td>
 	                </tr>
 	                <tr>
 	                    <td>付款类型:</td>
 	                    <td>
 	                    	<select class="easyui-combobox" name="pay_type" style="width:170px;">
-					        	<option value="1" selected="selected">寄付</option>
-					        	<option value="0">到付</option>
+					        	<option value="寄付" selected="selected">寄付</option>
+					        	<option value="到付">到付</option>
 					    	</select>
 						</td>
 	                </tr>
 	                <tr>
 	                    <td>费用:</td>
-	                    <td><input class="easyui-numberbox" type="text" name="exp_cost" data-options="required:false"></input></td>
+	                    <td><input class="easyui-textbox" type="text" name="exp_cost" data-options="required:false"></input></td>
 	                </tr>
 	                <tr>
 	                    <td>快递公司:</td>
 		                <td><input class="easyui-combobox"
-				            name="expressCompany.id"
+				            name="exp_company_id"
 				            id="edit_exp_company_id"
 				            data-options="
 		                    url:'${pageContext.request.contextPath}/express/expressCompanyDatas',
@@ -190,7 +190,7 @@
 	                </tr>
 	                <tr>
 	                    <td>快递单号:</td>
-	                    <td><input class="easyui-textbox" type="text" name="exp_num" data-options="required:true"></input></td>
+	                    <td><input class="easyui-textbox" type="text" name="exp_num" data-options="required:false"></input></td>
 	                </tr>
 	                
 	                
@@ -207,8 +207,6 @@
 	        <a id="edit-close-button" href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#edit').dialog('close')">关闭</a>
 	    </div>
     </div>
-    
-    
     
 </body>
 </html>

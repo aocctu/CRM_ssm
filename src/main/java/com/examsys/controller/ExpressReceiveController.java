@@ -2,7 +2,6 @@ package com.examsys.controller;
 
 
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.examsys.po.Employee;
 import com.examsys.po.Express;
 import com.examsys.po.ExpressCompany;
 import com.examsys.service.ExpressCompanyService;
 import com.examsys.service.ExpressService;
+import com.examsys.util.SessionNullException;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -44,6 +43,8 @@ public class ExpressReceiveController {
 	
 	@Resource
 	private ExpressCompanyService expressCompanyService;
+	
+	SessionNullException myex = new SessionNullException();
 	
 	/**
 	 * 初始化快递公司下拉框
@@ -74,6 +75,7 @@ public class ExpressReceiveController {
 		Express express = null;
 		
 		try {
+			myex.ex();
 			express = expressService.get(id);
 		} catch (Exception e) {
 			log.error("初始化修改失败",e);
@@ -89,23 +91,36 @@ public class ExpressReceiveController {
 	 * @return
 	 */
 	@RequestMapping("/updateStatus")
-	public @ResponseBody Map updateSave(Express express){
+	public @ResponseBody Map updateSave(Express express,HttpServletRequest req){
 		log.info("接收到要修改的数据为："+express);
+		myex.ex();
 		Map jsonDatas = new HashMap<>();
 		jsonDatas.put("status", 0);
-		try {
-			Express oldExpress = expressService.get(express.getId());
-			oldExpress.setExp_status("2");
-
-			boolean flag = expressService.update(oldExpress);
-			if(flag){
-				jsonDatas.put("status", 1);
+		String ids = req.getParameter("ids");
+		String exp_status = req.getParameter("exp_status");
+		if(exp_status.contains("已接收")){
+			new Exception();
+		}else{
+			String []id=ids.split(",");
+			
+			try {
+				
+				for(String i : id){
+					Express oldExpress = expressService.get(Integer.valueOf(i).intValue());
+					oldExpress.setExp_status("已接收");
+		
+					boolean flag = expressService.update(oldExpress);
+					if(flag){
+						jsonDatas.put("status", 1);
+					}
+				}
+			} catch (Exception e) {
+				log.error("修改失败",e);
 			}
-		} catch (Exception e) {
-			log.error("修改失败",e);
 		}
 		return jsonDatas;
 	}
+	
 	
 	
 	/**
@@ -137,9 +152,10 @@ public class ExpressReceiveController {
 		Map jsonDatas = new HashMap();
 		List<Express> expList = new ArrayList<Express>();
 		try {
+			myex.ex();
 			//分页处理
 			PageHelper.startPage(page, rows);
-			expList = expressService.getList(express);
+			expList = expressService.getList3(express);
 			//取记录总条数
 			PageInfo<Express> pageInfo = new PageInfo<Express>(expList);
 			jsonDatas.put("total", pageInfo.getTotal()); //总数
@@ -150,5 +166,7 @@ public class ExpressReceiveController {
 		}
 		return jsonDatas; //返回存入数据的集合，最终给springmvc转换为json数据输出给浏览器
 	}
+	
+
 	
 }

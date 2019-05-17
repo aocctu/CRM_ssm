@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- dao接口的路径 -->
+<mapper namespace="com.examsys.dao.PartsWarehouseDao">
+	
+	<insert id="add" parameterType="com.examsys.po.PartsWarehouse">
+		Insert into PartsWarehouse (MATERIAL_CODE,MODEL,QUANTITY,DESCRIPTION,REMARK,TYPE,ICHIBAN,SCRAP,STATUS,CREATE_NAME,CREATE_DATE) values (#{material_code},#{model},#{quantity},#{description},#{remark},#{type},#{ichiban},#{scrap},#{status},#{create_name},#{create_date})
+	</insert>
+	
+	<update id="update" parameterType="com.examsys.po.PartsWarehouse">
+		UPDATE PartsWarehouse SET MATERIAL_CODE=#{material_code},MODEL=#{model},QUANTITY=#{quantity},DESCRIPTION=#{description},REMARK=#{remark},TYPE=#{type},ICHIBAN=#{ichiban},SCRAP=#{scrap},STATUS=#{status},CREATE_NAME=#{create_name},CREATE_DATE=#{create_date},MATERIALS_STATUS=#{materials_status},RECEIVE_NUM=#{receive_num} WHERE ID=#{id}
+	</update>
+	
+	
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM PartsWarehouse WHERE ID = #{id}
+	</delete>
+	
+	<resultMap type="com.examsys.po.PartsWarehouse" id="PartsWarehouseMap">
+		<id property="id" column="ID"/>
+		<result property="material_code" column="MATERIAL_CODE"/>
+		<result property="model" column="MODEL"/>
+		<result property="quantity" column="QUANTITY"/>
+		<result property="description" column="DESCRIPTION"/>
+		<result property="remark" column="REMARK"/>
+		<result property="type" column="TYPE"/>
+		<result property="ichiban" column="ICHIBAN"/>
+		<result property="scrap" column="SCRAP"/>
+		<result property="status" column="STATUS"/>
+		<result property="create_name" column="CREATE_NAME"/>
+		<result property="create_date" column="CREATE_DATE"/>
+		<result property="materials_status" column="MATERIALS_STATUS"/>
+		<result property="receive_num" column="RECEIVE_NUM"/>
+		
+	</resultMap>
+	
+	<select id="get" parameterType="java.lang.Integer" resultMap="PartsWarehouseMap">
+		SELECT a.ID,a.MATERIAL_CODE,a.MODEL,a.QUANTITY,a.DESCRIPTION,a.REMARK,a.TYPE,a.ICHIBAN,a.SCRAP,a.STATUS,a.CREATE_NAME,a.CREATE_DATE,a.MATERIALS_STATUS,a.RECEIVE_NUM FROM PartsWarehouse a WHERE a.ID = #{id}
+	</select>
+	
+	<select id="get2" parameterType="java.lang.String" resultMap="PartsWarehouseMap">
+		SELECT a.ID,a.MATERIAL_CODE,a.MODEL,a.QUANTITY,a.DESCRIPTION,a.REMARK,a.TYPE,a.ICHIBAN,a.SCRAP,a.STATUS,a.CREATE_NAME,a.CREATE_DATE,a.MATERIALS_STATUS,a.RECEIVE_NUM FROM PartsWarehouse a WHERE a.MATERIAL_CODE = #{material_code}
+	</select>
+	
+	<select id="getList1" resultMap="PartsWarehouseMap">
+		SELECT a.ID,a.MATERIAL_CODE,a.MODEL,a.QUANTITY,a.DESCRIPTION,a.REMARK,a.TYPE,a.ICHIBAN,a.SCRAP,a.STATUS,a.CREATE_NAME,a.CREATE_DATE FROM PartsWarehouse a
+	</select>
+	
+	<select id="getList2" parameterType="com.examsys.dao.PartsWarehouseDao" resultMap="PartsWarehouseMap">
+		SELECT a.ID,a.MATERIAL_CODE,a.MODEL,a.QUANTITY,a.DESCRIPTION,a.REMARK,a.TYPE,a.ICHIBAN,a.SCRAP,a.STATUS,a.CREATE_NAME,a.CREATE_DATE FROM PartsWarehouse a
+		<where>
+			<if test="id != null">
+				AND a.ID = #{id}
+			</if>
+			<if test="material_code != null">
+				AND a.MATERIAL_CODE = #{material_code}
+			</if>
+			<if test="model != null">
+				AND a.MODEL = #{model}
+			</if>
+			<trim prefix="WHERE" prefixOverrides="AND/OR"></trim>
+		</where>
+	</select>
+	
+	<select id="getList3" parameterType="com.examsys.dao.PartsWarehouseDao" resultMap="PartsWarehouseMap">
+		SELECT a.ID,a.MATERIAL_CODE,a.MODEL,a.QUANTITY,a.DESCRIPTION,a.REMARK,a.TYPE,a.ICHIBAN,a.SCRAP,a.STATUS,a.CREATE_NAME,a.CREATE_DATE,a.MATERIALS_STATUS,a.RECEIVE_NUM FROM PartsWarehouse a
+		<where>
+			<if test="id != null">
+				AND a.ID = #{id}
+			</if>
+			<if test="material_code != null">
+				AND a.MATERIAL_CODE = #{material_code}
+			</if>
+			<if test="model != null">
+				AND a.MODEL = #{model}
+			</if>
+			<if test="ichiban == null">
+				AND a.ICHIBAN  &gt; 0
+			</if>
+			<trim prefix="WHERE" prefixOverrides="AND/OR"></trim>
+		</where>
+	</select>
+	
+</mapper>

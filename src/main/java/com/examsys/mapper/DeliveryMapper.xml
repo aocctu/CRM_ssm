@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- dao接口的路径 -->
+<mapper namespace="com.examsys.dao.DeliveryDao">
+	
+	<insert id="add" parameterType="com.examsys.po.Delivery">
+		Insert into Delivery (BATCH_NUM,MATERIAL_CODE,MODEL,DESCRIPTION,ICHIBAN,MATERIALS_STATUS,RECEIVE_NUM,APPLY_NAME,APPLY_DATE,DELIVERY_NAME,DELIVERY_DATE) values (#{batch_num},#{material_code},#{model},#{description},#{ichiban},#{materials_status},#{receive_num},#{apply_name},#{apply_date},#{delivery_name},#{delivery_date})
+	</insert>
+	
+	<update id="update" parameterType="com.examsys.po.Delivery">
+		UPDATE Delivery SET BATCH_NUM=#{batch_num},MATERIAL_CODE=#{material_code},MODEL=#{model},DESCRIPTION=#{description},ICHIBAN=#{ichiban},MATERIALS_STATUS=#{materials_status},RECEIVE_NUM=#{receive_num},APPLY_NAME=#{apply_name},APPLY_DATE=#{apply_date},DELIVERY_NAME=#{delivery_name},DELIVERY_DATE=#{delivery_date} WHERE ID=#{id}
+	</update>
+	
+	
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM Delivery WHERE ID = #{id}
+	</delete>
+	
+	<resultMap type="com.examsys.po.Delivery" id="DeliveryMap">
+		<id property="id" column="ID"/>
+		<result property="batch_num" column="BATCH_NUM"/>
+		<result property="material_code" column="MATERIAL_CODE"/>
+		<result property="model" column="MODEL"/>
+		<result property="description" column="DESCRIPTION"/>
+		<result property="ichiban" column="ICHIBAN"/>
+		<result property="materials_status" column="MATERIALS_STATUS"/>
+		<result property="receive_num" column="RECEIVE_NUM"/>
+		<result property="apply_name" column="APPLY_NAME"/>
+		<result property="apply_date" column="APPLY_DATE"/>
+		<result property="delivery_name" column="DELIVERY_NAME"/>
+		<result property="delivery_date" column="DELIVERY_DATE"/>
+		
+	</resultMap>
+	
+	<select id="get" parameterType="java.lang.Integer" resultMap="DeliveryMap">
+		SELECT a.ID,a.BATCH_NUM,a.MATERIAL_CODE,a.MODEL,a.DESCRIPTION,a.ICHIBAN,a.MATERIALS_STATUS,a.RECEIVE_NUM,a.APPLY_NAME,a.APPLY_DATE,a.DELIVERY_NAME,a.DELIVERY_DATE FROM Delivery a WHERE a.ID = #{id}
+	</select>
+	
+	<select id="getList1" resultMap="DeliveryMap">
+		SELECT a.ID,a.BATCH_NUM,a.MATERIAL_CODE,a.MODEL,a.DESCRIPTION,a.ICHIBAN,a.MATERIALS_STATUS,a.RECEIVE_NUM,a.APPLY_NAME,a.APPLY_DATE,a.DELIVERY_NAME,a.DELIVERY_DATE FROM Delivery a
+	</select>
+	
+	<select id="getList2" parameterType="com.examsys.dao.DeliveryDao" resultMap="DeliveryMap">
+		SELECT a.ID,a.BATCH_NUM,a.MATERIAL_CODE,a.MODEL,a.DESCRIPTION,a.ICHIBAN,a.MATERIALS_STATUS,a.RECEIVE_NUM,a.APPLY_NAME,a.APPLY_DATE,a.DELIVERY_NAME,a.DELIVERY_DATE FROM Delivery a
+		<where>
+			<if test="id != null">
+				AND a.ID = #{id}
+			</if>
+			<if test="material_code != null">
+				AND a.MATERIAL_CODE = #{material_code}
+			</if>
+			<if test="model != null">
+				AND a.MODEL = #{model}
+			</if>
+			<trim prefix="WHERE" prefixOverrides="AND/OR"></trim>
+		</where>
+	</select>
+	
+</mapper>

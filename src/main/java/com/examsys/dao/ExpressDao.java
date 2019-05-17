@@ -26,4 +26,6 @@ public interface ExpressDao {
 	
 	// 条件查询
 	public List<Express> getList2(Express express)throws Exception;
+	
+	public List<Express> getList3(Express express)throws Exception;
 }

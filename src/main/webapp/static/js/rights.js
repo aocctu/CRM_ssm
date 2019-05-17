@@ -55,9 +55,11 @@ $(function(){//保存添加
 						function(data,state){
 							if(data.status==1){
 								$.messager.alert('信息提示','保存成功');
-								$('#addForm').form('clear');//清空表单数据
+								
 								$('#dg').datagrid('reload');//刷新
 								$('#add').dialog('close');
+								$('#addForm').form('clear');//清空表单数据
+								
 							}else{
 								$.messager.alert('信息提示','保存失败');
 							}
@@ -65,7 +67,6 @@ $(function(){//保存添加
 					);
    	            }
    	        });
-			$('#addForm').form('clear');//清空表单数据
 		}	
 
 	)

@@ -12,19 +12,19 @@
  <body class="easyui-layout">
  	<div class="easyui-panel" style="height:754px;padding:10px;">
  		<div class="easyui-panel" style="padding:10px;">
- 			<shiro:hasPermission name="department:add">
+ 			<shiro:hasPermission name="expressCompany:add">
 	       	 	<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="$('#add').dialog('open')">添加</a>
 	        </shiro:hasPermission>
 	        
-	        <shiro:hasPermission name="department:select">
+	        <shiro:hasPermission name="expressCompany:select">
 	        	<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$('#search').dialog('open')">查询</a>
 	        </shiro:hasPermission>
 	        
-	        <shiro:hasPermission name="department:update">
+	        <shiro:hasPermission name="expressCompany:update">
 				<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="javascript:loadRemote()">修改</a>
 			</shiro:hasPermission>
 			
-			<shiro:hasPermission name="department:delete">
+			<shiro:hasPermission name="expressCompany:delete">
 				<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="javascript:removeConfirm()">删除</a>
 			</shiro:hasPermission>
 		</div>

@@ -190,27 +190,20 @@ public class EmployeeController {
 	@RequestMapping("/delete")
 	public @ResponseBody Map delete(HttpServletRequest req){
 		
-		
-		
 		Map jsonDatas=new HashMap();//存放json数据的集合
 		jsonDatas.put("status", 0);//默认状态为0，表示操作失败
 		String ids = req.getParameter("ids");
-		
 		String []id=ids.split(",");
 		try {
 			for(String i : id){
 				//通过id去删除数据
-				log.info("开始删除编号为"+i+"的系统功能");//把id放到日志
+				log.info("开始删除编号为"+i+"的用户");//把id放到日志
 				employeeService.delete(Integer.valueOf(i).intValue());
 			}
-			
-			
 				jsonDatas.put("status", 1);//设置状态为1，表示操作成功
-				return jsonDatas;
 		} catch (Exception e) {
 			log.error("删除失败", e);
 		}
-		jsonDatas.put("error", "有问题");
 		return jsonDatas;//返回存放json数据的集合,最终给springmvc转换为json数据输出给浏览器
 	}
 	

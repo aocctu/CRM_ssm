@@ -10,7 +10,7 @@
 	</insert>
 	
 	<update id="update" parameterType="com.examsys.po.ExpressCompany">
-		UPDATE ExpressCompany SET DNAME=#{exp_company} WHERE ID=#{id}
+		UPDATE ExpressCompany SET EXP_COMPANY=#{exp_company} WHERE ID=#{id}
 	</update>
 	
 	

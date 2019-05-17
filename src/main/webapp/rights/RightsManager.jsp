@@ -135,7 +135,7 @@
 	               
 	                <tr>
 	                    <td>选项卡url值:</td>
-	                    <td><input class="easyui-validatebox" type="text" name="url" data-options="required:true"></input></td>
+	                    <td><input class="easyui-validatebox" type="text" name="url" data-options="required:false"></input></td>
 	                </tr>
 	                <tr>
 	                    <td>父级菜单:</td>

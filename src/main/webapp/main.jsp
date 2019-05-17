@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>权限管理系统</title>
+	<title>系统</title>
 	<c:import url="/header.jsp"></c:import>
 </head>
 <body class="easyui-layout layout panel-noscroll">

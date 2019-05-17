@@ -1,5 +1,5 @@
 /**
- * 快递录入管理模块用到的js代码
+ * 快递接收管理模块用到的js代码
  */
 
 //删除按钮的监听方法
@@ -30,15 +30,40 @@ function removeConfirm(){
 
 //修改按钮的监听方法，加载准备要修改的数据
 function loadRemote(){
-	var row = $('#dg').datagrid('getSelected');
-    if (row){
-        $('#editForm').form('load', contextPath+'/expressReceive/update.do?id='+row.id);
-		if(row.expressCompany){
-			$("#edit_exp_company_id").combobox('select', row.expressCompany.id);
-		}
-        $('#edit').dialog('open');
+	// 返回被选中的行 然后集成的其实是 对象数组  
+    var row = $('#dg').datagrid('getSelections');  
+    var i = 0;  
+    var string = "";  
+    var status = "";
+    for(i;i<row.length;i++){  
+        string += row[i].id;  
+        status += row[i].exp_status;  
+        if(i < row.length-1){  
+            string += ',';  
+            status += ',';
+        }else{  
+            break;  
+        }  
+    }
+    if(row.length>0){
+    	$.messager.confirm('信息提示', '确认要这些入库吗?', function(r){
+            if (r){
+            	$.post(contextPath+"/expressReceive/updateStatus.do",{ids:string,exp_status:status},
+					function(data,state){
+						if(data.status==1){
+							$.messager.alert('信息提示','接收成功');
+							$('#dg').datagrid('reload');//刷新
+						}else{
+							$.messager.alert('信息提示','接收失败,检查快递状态是否已接收');
+						}
+					}
+				);
+            	 
+            }
+        });
+        
     }else{
-    	$.messager.alert('信息提示','请选择一条数据进行修改');
+    	$.messager.alert('信息提示','请选择未录入的快递数据进行接收操作');
     }
 }
 
@@ -112,8 +137,9 @@ $(function(){//查询
                     serializeObj[this.name]=this.value;
                 }
             });
-			$('#dg').datagrid('reload',serializeObj);//查询刷新
+            $('#dg').datagrid('reload',serializeObj);//查询刷新
 			$('#search').dialog('close');
+			$('#search').form('clear');//清空表单数据
 		}
 
 	)
@@ -149,28 +175,17 @@ $(function(){
 
     $('#dg').datagrid({
     	columns:[[
-    		{title: "快递接收",field: 'file', width:80,
+    		{field:'ck',checkbox:'true' },
+    		/*{title: "快递接收",field: 'file', width:80,
 			    formatter:function(value,row,index){
 			        return "<a href='javascript:void(0);' class='easyui-linkbutton'  onclick='ann();'>快递接收</a>";
 				}
-    		},
+    		},*/
 			{field:'id',title:'编号', width:80},
+			{field:'exp_num',title:'快递单号', width:140},
 			{field:'exp_iphone',title:'快递员手机号',width:140},
 			{field:'exp_name',title:'快递员名字', width:140},
-			{field:'pay_type',title:'付款类型', width:140,
-				formatter: function(value,row,index){
-    				if (row.pay_type){
-    					if(row.pay_type==1){
-    						return "寄付";
-    					}else{
-    						return "到付";
-    					}
-    					
-    				} else {
-    					return value;
-    				}
-    			}
-			},
+			{field:'pay_type',title:'付款类型', width:140},
 			{field:'exp_cost',title:'费用', width:140},
 			{field:'exp_company_id',title:'快递公司', width:140,
 				formatter: function(value,row,index){
@@ -181,23 +196,9 @@ $(function(){
 					}
 				}
 			},
-			{field:'exp_num',title:'快递单号', width:140},
-			{field:'exp_status',title:'快递状态', width:140,
-				formatter: function(value,row,index){
-					if (row.exp_status){
-						if(row.exp_status==1){
-							return "已录入";
-						}else{
-							return "已接收";
-						}
-						
-					} else {
-						return value;
-					}
-				}
-			},
-			{field:'create_name',title:'录入人员', width:140},
-    		{field:'create_date',title:'创建时间', width:100},
+			{field:'exp_status',title:'快递状态', width:140},
+			{field:'create_name',title:'录入人员', width:100},
+    		{field:'create_date',title:'创建时间', width:128},
     		{field:'remark',title:'备注', width:100},
     	]]
     });

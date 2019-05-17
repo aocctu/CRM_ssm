@@ -23,12 +23,12 @@ public class Express {
 	
 	public Express() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 
 	public Express(Integer id, String exp_iphone, String exp_name, String pay_type, double exp_cost, String exp_num,
-			String exp_status, String create_date, String remark, ExpressCompany expressCompany, String create_name) {
+			String exp_status, String create_date, String remark,
+			ExpressCompany expressCompany, String create_name) {
 		super();
 		this.id = id;
 		this.exp_iphone = exp_iphone;
@@ -42,11 +42,6 @@ public class Express {
 		this.expressCompany = expressCompany;
 		this.create_name = create_name;
 	}
-
-
-
-
-
 
 
 	public Integer getId() {
@@ -270,6 +265,8 @@ public class Express {
 			return false;
 		return true;
 	}
+	
+	
 
 
 }

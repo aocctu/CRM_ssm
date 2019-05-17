@@ -39,14 +39,18 @@ public class ExpressCompanyServiceImpl extends AbstractBaseService<ExpressCompan
 
 	@Override
 	public boolean update(ExpressCompany obj) throws Exception {
-		
-		return false;
+		boolean flag = false;
+		this.getDao().update(obj);
+		flag=true;
+		return flag;
 	}
 
 	@Override
 	public boolean delete(Integer obj) throws Exception {
-		
-		return false;
+		boolean flag = false;
+		this.getDao().delete(obj);
+		flag=true;
+		return flag;
 	}
 
 	@Override

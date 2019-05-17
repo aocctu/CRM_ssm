@@ -139,14 +139,11 @@ $(function(){//查询
                 if(serializeObj[this.name]){
                     if($.isArray(serializeObj[this.name])){
                         serializeObj[this.name].push(this.value);
-                        alert(serializeObj[this.name].push(this.value) + "111");
                     }else{  
                         serializeObj[this.name]=[serializeObj[this.name],this.value];
-                        alert(serializeObj[this.name] + "2222");
                     }
                 }else{
                     serializeObj[this.name]=this.value;
-                    alert(serializeObj[this.name] + "----33333");
                 }
             });
 			$('#dg').datagrid('reload',serializeObj);//查询刷新

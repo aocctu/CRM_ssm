@@ -30,6 +30,9 @@
 		<mapper resource="com/examsys/mapper/ResetpassMapper.xml"></mapper>
 		<mapper resource="com/examsys/mapper/ExpressMapper.xml"></mapper>
 		<mapper resource="com/examsys/mapper/ExpressCompanyMapper.xml"></mapper>
+		<mapper resource="com/examsys/mapper/ExpressSortMapper.xml"></mapper>
+		<mapper resource="com/examsys/mapper/PartsWarehouseMapper.xml"></mapper>
+		<mapper resource="com/examsys/mapper/DeliveryMapper.xml"></mapper>
 		
 	</mappers>
 	

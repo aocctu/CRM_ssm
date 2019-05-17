@@ -69,13 +69,14 @@ $(function(){//保存添加
 	)
 }); 	
 
-//修改对话框中的保存按钮的监听方法     
-$(function(){//保存修改
+	//添加对话框中的保存按钮的监听方法
+$(function(){//保存添加
 	$("#edit-save-button").click(
 		function(){
 			var datas=$("#editForm").serialize();//表单数据项
 			$.messager.confirm('信息提示', '确认要保存吗?', function(r){
    	            if (r){
+   	            	alert(datas);
    	            	$.post(contextPath+"/express/updateSave.do",datas,
 						function(data,state){
 							if(data.status==1){
@@ -93,7 +94,8 @@ $(function(){//保存修改
 		}	
 
 	)
-});
+}); 	
+
 
 
 //查询对话框中查询按钮监听方法
@@ -144,22 +146,10 @@ $(function(){
     $('#dg').datagrid({
     	columns:[[
 			{field:'id',title:'编号', width:80},
+			{field:'exp_num',title:'快递单号', width:160},
 			{field:'exp_iphone',title:'快递员手机号',width:160},
 			{field:'exp_name',title:'快递员名字', width:160},
-			{field:'pay_type',title:'付款类型', width:160,
-				formatter: function(value,row,index){
-    				if (row.pay_type){
-    					if(row.pay_type==1){
-    						return "寄付";
-    					}else{
-    						return "到付";
-    					}
-    					
-    				} else {
-    					return value;
-    				}
-    			}
-			},
+			{field:'pay_type',title:'付款类型', width:160},
 			{field:'exp_cost',title:'费用', width:160},
 			{field:'exp_company_id',title:'快递公司', width:160,
 				formatter: function(value,row,index){
@@ -170,23 +160,9 @@ $(function(){
 					}
 				}
 			},
-			{field:'exp_num',title:'快递单号', width:160},
-			{field:'exp_status',title:'快递状态', width:160,
-				formatter: function(value,row,index){
-					if (row.exp_status){
-						if(row.exp_status==1){
-							return "已录入";
-						}else{
-							return "已接收";
-						}
-						
-					} else {
-						return value;
-					}
-				}
-			},
-			{field:'create_name',title:'录入人员', width:160},
-    		{field:'create_date',title:'创建时间', width:123},
+			{field:'exp_status',title:'快递状态', width:160},
+			{field:'create_name',title:'录入人员', width:100},
+    		{field:'create_date',title:'创建时间', width:128},
     		{field:'remark',title:'备注', width:100},
     	]]
     });

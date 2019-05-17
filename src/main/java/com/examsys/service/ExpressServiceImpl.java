@@ -69,4 +69,11 @@ public class ExpressServiceImpl extends AbstractBaseService<Express, Integer> im
 		return list;
 	}
 
+	@Override
+	public List<Express> getList3(Express express) throws Exception {
+		List<Express> list = null;
+		list = this.getDao().getList3(express);
+		return list;
+	}
+
 }

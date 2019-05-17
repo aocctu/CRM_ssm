@@ -24,8 +24,10 @@ import com.examsys.po.Express;
 import com.examsys.po.ExpressCompany;
 import com.examsys.service.ExpressCompanyService;
 import com.examsys.service.ExpressService;
+import com.examsys.util.SessionNullException;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.PageRowBounds;
 
 /**
  * 快递管理
@@ -77,23 +79,42 @@ public class ExpressController {
 		Map jsonDatas = new HashMap(); //存放json数据的集合
 		jsonDatas.put("status", 0); //默认状态为0，表示操作失败
 		try {
-			ExpressCompany expressCompany = expressCompanyService.get(exp_company_id);
-			Employee employee = (Employee)req.getSession().getAttribute("EMPLOYEE");
-			express.setExpressCompany(expressCompany);
-			express.setCreate_name(employee.getUsername());
+			new SessionNullException().ex();
 			
-			Date d = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String dateNowStr = sdf.format(d);
-			express.setCreate_date(dateNowStr);
 			
-			express.setExp_status("1");
+			String exp_num = express.getExp_num();
 			
-			boolean flag = expressService.add(express);
-			System.out.println(express+"------");
-			if(flag){
-				jsonDatas.put("status", 1);//设置状态为1，表示操作成功
+			String[] res = exp_num.split("\n");
+			
+			//System.out.println(res.length + "-=-=-=");
+			for(int i = 0 ; i < res.length ; i++)
+			{
+				//System.out.println(res[i]);
+				
+				ExpressCompany expressCompany = expressCompanyService.get(exp_company_id);
+				Employee employee = (Employee)req.getSession().getAttribute("EMPLOYEE");
+				express.setExpressCompany(expressCompany);
+				express.setCreate_name(employee.getUsername());
+				
+				Date d = new Date();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String dateNowStr = sdf.format(d);
+				express.setCreate_date(dateNowStr);
+				
+				express.setExp_num(res[i]); //快递单号
+				
+				express.setExp_status("已录入");
+				
+				
+				boolean flag = expressService.add(express);
+				//System.out.println(express+"------");
+				if(flag){
+					jsonDatas.put("status", 1);//设置状态为1，表示操作成功
+				}
+				
 			}
+			
+			
 			
 		} catch (Exception e) {
 			log.error("添加失败",e);
@@ -113,6 +134,7 @@ public class ExpressController {
 		Express express = null;
 		
 		try {
+			
 			express = expressService.get(id);
 		} catch (Exception e) {
 			log.error("初始化修改失败",e);
@@ -122,29 +144,34 @@ public class ExpressController {
 	}
 	
 	/**
-	 * 保存修改
+	 * 修改保存
 	 * @param express
 	 * @param exp_company_id
 	 * @return
 	 */
 	@RequestMapping("/updateSave")
 	public @ResponseBody Map updateSave(Express express,
-			@RequestParam(name="exp_company_id",required=true)Integer exp_company_id){
+			@RequestParam(name="exp_company_id",required=true) Integer exp_company_id){
 		log.info("接收到要修改的数据为："+express);
 		Map jsonDatas = new HashMap<>();
 		jsonDatas.put("status", 0);
 		try {
+			new SessionNullException().ex();
 			Express oldExpress = expressService.get(express.getId());
 			oldExpress.setExp_iphone(express.getExp_iphone());
 			oldExpress.setExp_name(express.getExp_name());
-			oldExpress.setPay_type(express.getPay_type());
-			oldExpress.setExp_cost(express.getExp_cost());
 			oldExpress.setExp_num(express.getExp_num());
-			oldExpress.setRemark(express.getRemark());
-			if (exp_company_id!=null) {
-				ExpressCompany expressCompany = expressCompanyService.get(exp_company_id);
-				oldExpress.setExpressCompany(expressCompany);
+			
+			String pay_type = express.getPay_type();
+			
+			oldExpress.setPay_type(pay_type);
+			if(pay_type.equals("2")){
+				oldExpress.setExp_cost(express.getExp_cost());
 			}
+			
+			ExpressCompany expressCompany = expressCompanyService.get(exp_company_id);
+			express.setExpressCompany(expressCompany);
+
 			boolean flag = expressService.update(oldExpress);
 			if(flag){
 				jsonDatas.put("status", 1);
@@ -152,6 +179,32 @@ public class ExpressController {
 		} catch (Exception e) {
 			log.error("修改失败",e);
 		}
+		return jsonDatas;
+	}
+	
+	
+	
+	/**
+	 * 快递信息删除
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/delete")
+	public @ResponseBody Map delete(@RequestParam(name="id",required=true)Integer id){
+		log.info("要删除的数据id为:"+id);
+		Map jsonDatas = new HashMap<>();
+		jsonDatas.put("status", 0);
+		
+		try {
+			new SessionNullException().ex();
+			boolean flag = expressService.delete(id);
+			if(flag){
+				jsonDatas.put("status", 1);
+			}
+		} catch (Exception e) {
+			log.info("删除失败",e);
+		}
+		
 		return jsonDatas;
 	}
 	
@@ -185,8 +238,10 @@ public class ExpressController {
 		Map jsonDatas = new HashMap();
 		List<Express> expList = new ArrayList<Express>();
 		try {
+			new SessionNullException().ex();
 			//分页处理
-			PageHelper.startPage(page, rows);
+			String orderBy="create_date desc";
+			PageHelper.startPage(page, rows , orderBy);
 			expList = expressService.getList(express);
 			//取记录总条数
 			PageInfo<Express> pageInfo = new PageInfo<Express>(expList);

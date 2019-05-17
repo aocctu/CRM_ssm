@@ -75,6 +75,34 @@
 		</where>
 	</select>
 	
+	<select id="getList3" parameterType="com.examsys.po.Express" resultMap="expressMap">
+		SELECT a.ID,a.EXP_IPHONE,a.EXP_NAME,a.PAY_TYPE,a.EXP_COST,a.EXP_COMPANY_ID,a.EXP_NUM,a.EXP_STATUS,a.CREATE_NAME,a.CREATE_DATE,a.REMARK,b.EXP_COMPANY FROM EXPRESS a LEFT JOIN EXPRESSCOMPANY b ON a.EXP_COMPANY_ID = b.ID 
+		<where>
+			<if test="id!=null">
+				 AND a.ID=#{id}
+			</if>
+			<if test="expressCompany != null and expressCompany.ID != null">
+				AND a.EXP_COMPANY_ID =#{expressCompany.id}
+			</if> 
+			<if test="exp_num!=null">
+				 AND a.EXP_NUM =#{exp_num}
+			</if> 
+			<if test="exp_name != null">
+				AND a.EXP_NAME = #{exp_name}
+			</if>
+			<if test="pay_type != null">
+				AND a.PAY_TYPE = #{pay_type}
+			</if>
+			<if test="exp_status != null">
+				AND a.EXP_STATUS = #{exp_status}
+			</if>
+				<if test="exp_status == null">
+				AND a.EXP_STATUS = '已录入'
+			</if>
+			<trim prefix="WHERE" prefixOverrides="AND|OR"></trim>
+		</where>
+	</select>
+	
 	
 
 </mapper>

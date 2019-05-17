@@ -66,11 +66,7 @@ public class RightsController {
 		jsonDatas.put("status", 0);//默认状态为0，表示操作失败
 		try {
 			Rights rights2  = rightsService.get(pid);
-			/*if(rights2.equals(null)){
-				
-			}*/
 			
-			System.out.println(rights2);
 			rights.setRights(rights2);
 			//通过用户名去获取管理员
 			boolean flag = rightsService.add(rights);

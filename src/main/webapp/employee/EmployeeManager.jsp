@@ -18,11 +18,12 @@
 	    for(i;i<row.length;i++){  
 	        string += row[i].id;  
 	        if(i < row.length-1){  
-	            string += ',';  
+	            string += ','; 
+	            alert(string); 
 	        }else{  
 	            break;  
 	        }  
-	    }  
+	    } 
 	    if(row.length>0){
 	    	$.messager.confirm('信息提示', '确认要导出吗?', function(r){
 	            if (r){
@@ -36,8 +37,8 @@
 	    }
 	}
 
-	// 上传
-  function inputf(){
+	// 上传导入
+	function inputf(){
 		$("#dlg2").dialog('open').dialog('setTitle','使用表格批量导入数据');
 	}
 	function downloadTemplate(){
@@ -82,7 +83,7 @@
 	
 	<div id="add" class="easyui-dialog" title="添加管理员角色" 
 		data-options="modal:true,closed:true,iconCls:'icon-add',buttons:'#add-dlg-buttons'" 
-		style="width:500px;height:300px;padding:10px;">
+		style="width:500px;height:90%;padding:10px;">
 		<div style="padding:10px 0 10px 60px">
 			<form id="addForm" method="post">
 	            <table>
