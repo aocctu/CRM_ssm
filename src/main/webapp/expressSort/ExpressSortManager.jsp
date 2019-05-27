@@ -152,11 +152,11 @@
 	                    <td>维修类型:</td>
 	                    <td>
 	                    	<select  class="easyui-combobox" name="repair_type" data-options="value:'',panelHeight:'150',editable:false,required:false" style="width:170px;">
-					        	<option value="待一级翻新">待一级翻新</option>
-					        	<option value="待二级翻新">待二级翻新</option>
-					        	<option value="待三级翻新">待三级翻新</option>
-					        	<option value="待维修">待维修</option>
-					        	<option value="待报">待报废</option>
+					        	<option value="1">待一级翻新</option>
+					        	<option value="2">待二级翻新</option>
+					        	<option value="3">待三级翻新</option>
+					        	<option value="4">待维修</option>
+					        	<option value="5">待报废</option>
 					    	</select>
 						</td>
 	                </tr>
@@ -168,6 +168,7 @@
 					        	<option value="分拣录入">分拣录入</option>
 					        	<option value="来料检验">来料检验</option>
 					        	<option value="入库">入库</option>
+					        	<option value="已寄送">已寄送</option>
 					    	</select>
 						</td>
 	                </tr>
@@ -330,7 +331,7 @@ onChange:function(newValue,oldValue){
 					        	<option value="待二级翻新">待二级翻新</option>
 					        	<option value="待三级翻新">待三级翻新</option>
 					        	<option value="待维修">待维修</option>
-					        	<option value="待报">待报废</option>
+					        	<option value="待报废">待报废</option>
 					    	</select>
 						</td>
 	                </tr>

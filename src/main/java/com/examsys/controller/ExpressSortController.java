@@ -28,7 +28,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 /**
- * 快递分捡
+ * 快递分拣入库
  * @author Administrator
  *
  */

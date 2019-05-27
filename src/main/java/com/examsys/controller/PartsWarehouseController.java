@@ -179,9 +179,9 @@ public class PartsWarehouseController {
 	@RequestMapping("/selectDatas")
 	public @ResponseBody Map selectDatas(PartsWarehouse partsWarehouse,
 			//page当前是第几页
-			@RequestParam(value="page",required=false)int page,
+			@RequestParam(value="page",required=false)Integer page,
 			//rows每页几条数据
-			@RequestParam(value="rows",required=false)int rows){
+			@RequestParam(value="rows",required=false)Integer rows){
 		log.info("获取表格数据");
 		Map jsonDatas = new HashMap();
 		List<PartsWarehouse> partsWarehousesList = new ArrayList<PartsWarehouse>();
@@ -189,11 +189,11 @@ public class PartsWarehouseController {
 		try {
 			sne.ex();
 			//分页处理
-			String orderBy="create_date desc";
-			PageHelper.startPage(page, rows , orderBy);
+			//String orderBy="create_date desc";
+			PageHelper.startPage(page, rows );
 			partsWarehousesList = partsWarehouseService.getList(partsWarehouse);
 			
-			PageInfo<PartsWarehouse> pageInfo = new PageInfo<PartsWarehouse>();
+			PageInfo<PartsWarehouse> pageInfo = new PageInfo<PartsWarehouse>(partsWarehousesList);
 			jsonDatas.put("total", pageInfo.getTotal());
 			jsonDatas.put("rows", partsWarehousesList);
 		} catch (Exception e) {

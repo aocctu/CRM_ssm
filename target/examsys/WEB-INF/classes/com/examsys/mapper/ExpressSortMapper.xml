@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- dao接口的路径 -->
+<!-- 分拣入库  dao接口的路径 -->
 <mapper namespace="com.examsys.dao.ExpressSortDao">
 
 	<insert id="add" parameterType="com.examsys.po.ExpressSort">
@@ -34,11 +34,17 @@
 		<result property="confirm_fault" column="CONFIRM_FAULT"/>
 		<result property="repair_type" column="REPAIR_TYPE"/>
 		<result property="position" column="POSITION"/>
+		<result property="ichiban" column="ICHIBAN"/>
+		<result property="scrap" column="SCRAP"/>
 		
 	</resultMap>
 
 	<select id="get" parameterType="java.lang.Integer" resultMap="expressSortMap">
 		SELECT a.ID,a.EXP_NUM,a.MODEL,a.MATERIAL_TYPE,a.QUANTITY,a.FAULT,a.TYPE,a.REMARK,a.COLOR,a.SN,a.CREATE_NAME,a.CREATE_DATE,a.CONFIRM_FAULT,a.REPAIR_TYPE,a.POSITION FROM EXPRESSSORT a  WHERE a.ID=#{id}
+	</select>
+	
+	<select id="get2" parameterType="java.lang.String" resultMap="expressSortMap">
+		SELECT a.ID,a.EXP_NUM,a.MODEL,a.MATERIAL_TYPE,a.QUANTITY,a.FAULT,a.TYPE,a.REMARK,a.COLOR,a.SN,a.CREATE_NAME,a.CREATE_DATE,a.CONFIRM_FAULT,a.REPAIR_TYPE,a.POSITION FROM EXPRESSSORT a  WHERE a.SN=#{sn}
 	</select>
 	
 	<select id="getList1" resultMap="expressSortMap">
@@ -74,6 +80,14 @@
 			<trim prefix="WHERE" prefixOverrides="AND|OR"></trim>
 		</where>
 	</select>
+	
+	<!-- 主/整机仓存汇总 -->
+	<select id="getList3" parameterType="com.examsys.po.ExpressSort" resultMap="expressSortMap">
+		<!-- ICHIBAN 良品 报修类型小于5的， SCRAP 报废 报修类型大于4的。   -->
+		SELECT model,COUNT(IF(repair_type &lt; 5,TRUE,NULL)) AS ICHIBAN , COUNT(IF(repair_type &gt; 4,TRUE,NULL)) AS SCRAP FROM EXPRESSSORT WHERE POSITION='入库' GROUP BY MODEL
+		
+	</select>
+	
 	
 	
 

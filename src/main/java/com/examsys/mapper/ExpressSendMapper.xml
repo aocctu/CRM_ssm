@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 快递寄送 dao接口的路径 -->
+<mapper namespace="com.examsys.dao.ExpressSendDao">
+
+	<insert id="add" parameterType="com.examsys.po.ExpressSend">
+		Insert into ExpressSend (EXP_NUM,MODEL,SN,EXP_STATUS,CREATE_NAME,CREATE_DATE) values (#{exp_num},#{model},#{sn},#{exp_status},#{create_name},#{create_date})
+	</insert>
+
+	<update id="update" parameterType="com.examsys.po.ExpressSend">
+		UPDATE ExpressSend SET EXP_NUM=#{exp_num},MODEL=#{model},MATERIAL_TYPE=#{material_type},QUANTITY=#{quantity},FAULT=#{fault},TYPE=#{type},REMARK=#{remark},COLOR=#{color},SN=#{sn},CREATE_NAME=#{create_name},CREATE_DATE=#{create_date},POSITION=#{position},CONFIRM_FAULT=#{confirm_fault},REPAIR_TYPE=#{repair_type} WHERE ID=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM ExpressSend WHERE ID=#{id}
+	</delete>
+	
+	<!-- 创建数据库表 -->
+	<resultMap type="com.examsys.po.ExpressSend" id="ExpressSendMap">
+		<id property="id" column="ID"></id>
+		<result property="exp_num" column="EXP_NUM"></result>
+		<result property="model" column="MODEL"></result>
+		<result property="sn" column="SN"/>
+		<result property="exp_status" column="EXP_STATUS"/>
+		<result property="create_name" column="CREATE_NAME"/>
+		<result property="create_date" column="CREATE_DATE"/>
+	</resultMap>
+
+	<select id="get" parameterType="java.lang.Integer" resultMap="ExpressSendMap">
+		SELECT a.ID,a.EXP_NUM,a.MODEL,a.MATERIAL_TYPE,a.QUANTITY,a.FAULT,a.TYPE,a.REMARK,a.COLOR,a.SN,a.CREATE_NAME,a.CREATE_DATE,a.CONFIRM_FAULT,a.REPAIR_TYPE,a.POSITION FROM ExpressSend a  WHERE a.ID=#{id}
+	</select>
+	
+	<select id="getList1" resultMap="ExpressSendMap">
+		SELECT a.ID,a.EXP_NUM,a.MODEL,a.MATERIAL_TYPE,a.QUANTITY,a.FAULT,a.TYPE,a.REMARK,a.COLOR,a.SN,a.CREATE_NAME,a.CREATE_DATE,a.CONFIRM_FAULT,a.REPAIR_TYPE,a.POSITION FROM ExpressSend a 
+	</select>
+	
+	<select id="getList2" parameterType="com.examsys.po.ExpressSend" resultMap="ExpressSendMap">
+		SELECT a.ID,a.EXP_NUM,a.MODEL,a.SN,a.EXP_STATUS,a.CREATE_NAME,a.CREATE_DATE FROM ExpressSend a 
+		<where>
+			<if test="id!=null">
+				 AND a.ID=#{id}
+			</if>
+			 <if test="exp_num!=null">
+				 AND a.EXP_NUM =#{exp_num}
+			</if>
+			 <if test="model!=null">
+				 AND a.MODEL =#{model}
+			</if>
+			 <if test="sn!=null">
+				 AND a.SN =#{sn}
+			</if>
+			
+			<trim prefix="WHERE" prefixOverrides="AND|OR"></trim>
+		</where>
+		
+		order by create_date desc
+		
+	</select>
+
+	
+	
+
+</mapper>

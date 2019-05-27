@@ -146,11 +146,11 @@ public class DeliveryController {
 		
 		try {
 			
-			String orderBy="materials_status desc";
-			PageHelper.startPage(page, rows , orderBy);
+			//String orderBy="materials_status desc";
+			PageHelper.startPage(page, rows );
 			
 			deliveriesList = deliveryService.getList(delivery);
-			PageInfo<PartsWarehouse> pageInfo = new PageInfo<PartsWarehouse>();
+			PageInfo<Delivery> pageInfo = new PageInfo<Delivery>(deliveriesList);
 			jsonDatas.put("total", pageInfo.getTotal());
 			jsonDatas.put("rows", deliveriesList);
 		} catch (Exception e) {

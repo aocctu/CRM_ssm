@@ -7,4 +7,6 @@ import com.examsys.po.Express;
 public interface ExpressService extends IBaseService<Express, Integer> {
 
 	public List<Express> getList3(Express express)throws Exception;
+	
+	
 }

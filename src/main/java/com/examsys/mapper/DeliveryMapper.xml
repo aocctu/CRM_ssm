@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- dao接口的路径 -->
+<!-- 配件发料  dao接口的路径 -->
 <mapper namespace="com.examsys.dao.DeliveryDao">
 	
 	<insert id="add" parameterType="com.examsys.po.Delivery">
@@ -56,6 +56,7 @@
 			</if>
 			<trim prefix="WHERE" prefixOverrides="AND/OR"></trim>
 		</where>
+		order by MATERIALS_STATUS desc
 	</select>
 	
 </mapper>

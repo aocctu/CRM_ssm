@@ -9,7 +9,7 @@
 			</transactionManager>
 			<dataSource type="UNPOOLED">
 				<property name="driver" value="com.mysql.jdbc.Driver" />
-				<property name="url" value="jdbc:mysql://localhost:3306/crm" />
+				<property name="url" value="jdbc:mysql://localhost:3306/erp" />
 				<property name="username" value="root" />
 				<property name="password" value="123" />
 			</dataSource>
@@ -33,6 +33,7 @@
 		<mapper resource="com/examsys/mapper/ExpressSortMapper.xml"></mapper>
 		<mapper resource="com/examsys/mapper/PartsWarehouseMapper.xml"></mapper>
 		<mapper resource="com/examsys/mapper/DeliveryMapper.xml"></mapper>
+		<mapper resource="com/examsys/mapper/ExpressSendMapper.xml"></mapper>
 		
 	</mappers>
 	

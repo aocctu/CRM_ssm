@@ -265,7 +265,25 @@ $(function(){
 			},
 			{field:'remark',title:'备注', width:100},
 			{field:'color',title:'颜色', width:100},
-			{field:'repair_type',title:'维修类型', width:100},
+			{field:'repair_type',title:'维修类型', width:100,
+				formatter: function(value,row,index){
+    				if (row.repair_type){
+    					if(row.repair_type==1){
+    						return "待一级翻新";
+    					}else if(row.repair_type==2){
+    						return "待二级翻新";
+    					}else if(row.repair_type==3){
+    						return "待三级翻新";
+    					}else if(row.repair_type==4){
+    						return "待维修";
+    					}else if(row.repair_type==5){
+    						return "待报废";
+    					}
+    				} else {
+    					return value;
+    				}
+    			}
+			},
     		{field:'sn',title:'SN', width:123},
     		{field:'create_name',title:'分拣人员', width:80},
     		{field:'create_date',title:'分拣时间', width:128},

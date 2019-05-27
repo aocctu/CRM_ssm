@@ -27,7 +27,6 @@ import com.examsys.service.ExpressService;
 import com.examsys.util.SessionNullException;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.PageRowBounds;
 
 /**
  * 快递管理
@@ -231,17 +230,17 @@ public class ExpressController {
 	@RequestMapping("/selectDatas")
 	public @ResponseBody Map selectDatas(Express express,
 			//page当前是第几页
-			@RequestParam(value="page",required=false)int page,
+			@RequestParam(value="page",required=false)Integer page,
 			//rows每页几条数据
-			@RequestParam(value="rows",required=false)int rows){
+			@RequestParam(value="rows",required=false)Integer rows){
 		log.info("开始获取快递录入管理表数据");
 		Map jsonDatas = new HashMap();
 		List<Express> expList = new ArrayList<Express>();
 		try {
 			new SessionNullException().ex();
 			//分页处理
-			String orderBy="create_date desc";
-			PageHelper.startPage(page, rows , orderBy);
+			//String orderBy="create_date desc";
+			PageHelper.startPage(page, rows );
 			expList = expressService.getList(express);
 			//取记录总条数
 			PageInfo<Express> pageInfo = new PageInfo<Express>(expList);

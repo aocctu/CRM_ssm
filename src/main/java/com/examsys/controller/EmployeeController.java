@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.examsys.po.AdminRolesSettings;
 import com.examsys.po.Department;
 import com.examsys.po.Employee;
 import com.examsys.po.JobInfo;
@@ -95,9 +95,10 @@ public class EmployeeController {
 		try {
 			Department department = departmentService.get(departmentid);
 			JobInfo jobInfo = jobInfoService.get(jobInfoid);
-			
+						
 			employee.setJobInfo(jobInfo);
 			employee.setDepartment(department);
+			employee.setPass(employee.getPass());
 			//通过用户名去获取管理员
 			boolean flag = employeeService.add(employee);
 			

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- dao接口的路径 -->
+<!-- 快递录入 dao接口的路径 -->
 <mapper namespace="com.examsys.dao.ExpressDao">
 
 	<insert id="add" parameterType="com.examsys.po.Express">
@@ -42,6 +42,7 @@
 		SELECT a.ID,a.EXP_IPHONE,a.EXP_NAME,a.PAY_TYPE,a.EXP_COST,a.EXP_COMPANY_ID,a.EXP_NUM,a.EXP_STATUS,a.CREATE_NAME,a.CREATE_DATE,a.REMARK,b.EXP_COMPANY FROM EXPRESS a LEFT JOIN EXPRESSCOMPANY b ON a.EXP_COMPANY_ID = b.ID WHERE a.ID=#{id}
 	</select>
 	
+	
 	<select id="getList1" resultMap="expressMap">
 		SELECT a.ID,a.EXP_IPHONE,a.EXP_NAME,a.PAY_TYPE,a.EXP_COST,a.EXP_COMPANY_ID,a.EXP_NUM,a.EXP_STATUS,a.CREATE_NAME,a.CREATE_DATE,a.REMARK,b.EXP_COMPANY FROM EXPRESS a LEFT JOIN EXPRESSCOMPANY b ON a.EXP_COMPANY_ID = b.ID
 	</select>
@@ -70,9 +71,9 @@
 			<if test="exp_num!=null">
 				 AND a.EXP_NUM =#{exp_num}
 			</if> 
-			
 			<trim prefix="WHERE" prefixOverrides="AND|OR"></trim>
 		</where>
+		 order by create_date desc
 	</select>
 	
 	<select id="getList3" parameterType="com.examsys.po.Express" resultMap="expressMap">

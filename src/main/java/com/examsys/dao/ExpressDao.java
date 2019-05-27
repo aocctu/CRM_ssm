@@ -28,4 +28,6 @@ public interface ExpressDao {
 	public List<Express> getList2(Express express)throws Exception;
 	
 	public List<Express> getList3(Express express)throws Exception;
+	
+
 }

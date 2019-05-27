@@ -4,11 +4,6 @@ import java.util.List;
 
 import com.examsys.po.ExpressSort;
 
-/**
- * 快递分类表持久层
- * @author Administrator
- *
- */
 public interface ExpressSortDao {
 	
 	//添加
@@ -28,6 +23,10 @@ public interface ExpressSortDao {
 	
 	//条件查询
 	public List<ExpressSort> getList2(ExpressSort expressSort)throws Exception;
+
+	public List<ExpressSort> getList3(ExpressSort obj);
 	
+	// 通过SN查询
+	public ExpressSort get2(String sn)throws Exception;
 
 }

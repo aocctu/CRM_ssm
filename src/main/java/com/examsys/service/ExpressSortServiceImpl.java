@@ -67,5 +67,19 @@ public class ExpressSortServiceImpl extends AbstractBaseService<ExpressSort, Int
 		list = this.getDao().getList2(obj);
 		return list;
 	}
+	
+	@Override
+	public List<ExpressSort> getList3(ExpressSort obj) throws Exception {
+		List<ExpressSort> list = null;
+		list = this.getDao().getList3(obj);
+		return list;
+	}
+
+	@Override
+	public ExpressSort get2(String sn) throws Exception {
+		ExpressSort expressSort = null;
+		expressSort = this.getDao().get2(sn);
+		return expressSort;
+	}
 
 }

@@ -2,7 +2,7 @@ package com.examsys.po;
 
 
 /**
- *  快递分类
+ *  快递分类实体类
  * @author Administrator
  *
  */
@@ -23,6 +23,8 @@ public class ExpressSort {
 	private String confirm_fault;//确认故障
 	private String repair_type;//维修类型
 	private String position;//位置
+	private String ichiban;//良品
+	private String scrap;//报废
 	
 	public ExpressSort() {
 		super();
@@ -32,7 +34,7 @@ public class ExpressSort {
 
 	public ExpressSort(Integer id, String exp_num, String model, String material_type, String quantity, String fault,
 			String type, String remark, String color, String sn, String create_name, String create_date,
-			String confirm_fault, String repair_type, String position) {
+			String confirm_fault, String repair_type, String position, String ichiban, String scrap) {
 		super();
 		this.id = id;
 		this.exp_num = exp_num;
@@ -49,7 +51,10 @@ public class ExpressSort {
 		this.confirm_fault = confirm_fault;
 		this.repair_type = repair_type;
 		this.position = position;
+		this.ichiban = ichiban;
+		this.scrap = scrap;
 	}
+
 
 
 	public Integer getId() {
@@ -202,13 +207,33 @@ public class ExpressSort {
 	}
 
 
+	public String getIchiban() {
+		return ichiban;
+	}
+
+
+	public void setIchiban(String ichiban) {
+		this.ichiban = ichiban;
+	}
+
+
+	public String getScrap() {
+		return scrap;
+	}
+
+
+	public void setScrap(String scrap) {
+		this.scrap = scrap;
+	}
+
+
 	@Override
 	public String toString() {
 		return "ExpressSort [id=" + id + ", exp_num=" + exp_num + ", model=" + model + ", material_type="
 				+ material_type + ", quantity=" + quantity + ", fault=" + fault + ", type=" + type + ", remark="
 				+ remark + ", color=" + color + ", sn=" + sn + ", create_name=" + create_name + ", create_date="
 				+ create_date + ", confirm_fault=" + confirm_fault + ", repair_type=" + repair_type + ", position="
-				+ position + "]";
+				+ position + ", ichiban=" + ichiban + ", scrap=" + scrap + "]";
 	}
 
 
@@ -222,6 +247,7 @@ public class ExpressSort {
 		result = prime * result + ((create_name == null) ? 0 : create_name.hashCode());
 		result = prime * result + ((exp_num == null) ? 0 : exp_num.hashCode());
 		result = prime * result + ((fault == null) ? 0 : fault.hashCode());
+		result = prime * result + ((ichiban == null) ? 0 : ichiban.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((material_type == null) ? 0 : material_type.hashCode());
 		result = prime * result + ((model == null) ? 0 : model.hashCode());
@@ -229,6 +255,7 @@ public class ExpressSort {
 		result = prime * result + ((quantity == null) ? 0 : quantity.hashCode());
 		result = prime * result + ((remark == null) ? 0 : remark.hashCode());
 		result = prime * result + ((repair_type == null) ? 0 : repair_type.hashCode());
+		result = prime * result + ((scrap == null) ? 0 : scrap.hashCode());
 		result = prime * result + ((sn == null) ? 0 : sn.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
@@ -274,6 +301,11 @@ public class ExpressSort {
 				return false;
 		} else if (!fault.equals(other.fault))
 			return false;
+		if (ichiban == null) {
+			if (other.ichiban != null)
+				return false;
+		} else if (!ichiban.equals(other.ichiban))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -309,6 +341,11 @@ public class ExpressSort {
 				return false;
 		} else if (!repair_type.equals(other.repair_type))
 			return false;
+		if (scrap == null) {
+			if (other.scrap != null)
+				return false;
+		} else if (!scrap.equals(other.scrap))
+			return false;
 		if (sn == null) {
 			if (other.sn != null)
 				return false;
@@ -321,6 +358,7 @@ public class ExpressSort {
 			return false;
 		return true;
 	}
+
 
 
 }

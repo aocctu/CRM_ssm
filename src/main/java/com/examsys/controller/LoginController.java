@@ -94,12 +94,12 @@ public class LoginController {
 		
 		try {
 			//从服务器缓存中拿出先前放置的验证码
-			/*String sessionCode=(String)req.getSession().getAttribute("code");
+			String sessionCode=(String)req.getSession().getAttribute("code");
 			if(!sessionCode.equals(code)){//与页面传过来的验证码对比
 				mv.addObject("msg", "验证码不正确");
 				mv.setViewName("index");//如果不匹配则返回登录页
 				return mv;
-			}*/
+			}
 			
 			//通过用户名去获取管理员
 			Employee dEmployee = employeeService.getByName(employee.getUsername());
