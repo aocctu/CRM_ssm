@@ -74,8 +74,8 @@
 				<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="javascript:removeConfirm()">删除</a>
 			</shiro:hasPermission>
 			
-			<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:''" onclick="javascript:outf()" style="margin-left: 30px">数据导出</a>
-			<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:''" onclick="javascript:inputf()">数据导入</a>
+			<!-- <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:''" onclick="javascript:outf()" style="margin-left: 30px">数据导出</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:''" onclick="javascript:inputf()">数据导入</a> -->
 		</div>
 		<table id="dg" style="width:100%;height:400px" class="easyui-datagrid" data-options="url:'${pageContext.request.contextPath}/employee/selectDatas.do',method:'post',rownumbers:true,pagination:true,border:true,singleSelect:false">
 		</table>
@@ -96,14 +96,9 @@
 	                    <td><input class="easyui-validatebox" type="text" name="pass" data-options="required:true"></input></td>
 	                </tr>
 	                <tr>
-	                    <td>昵称:</td>
-	                    <td><input class="easyui-validatebox" type="text" name="nickname" data-options="required:true"></input></td>
-	                </tr>
-	                <tr>
 	                    <td>真实姓名:</td>
 	                    <td><input class="easyui-validatebox" type="text" name="realname" data-options="required:true"></input></td>
 	                </tr>
-	                
 	                <tr>
 	                    <td>职位:</td>
 		                <td><input class="easyui-combobox"
@@ -132,11 +127,6 @@
 	                    <td>手机:</td>
 	                    <td><input class="easyui-validatebox" type="text" name="phoneNo" data-options="required:true"></input></td>
 	                </tr>
-	                 <tr>
-	                    <td>办公电话:</td>
-	                    <td><input class="easyui-validatebox" type="text" name="officeTel" data-options="required:true"></input></td>
-	                </tr>
-	               
 	                <tr>
 	                    <td>在职状态:</td>
 	                    <td>
@@ -213,10 +203,6 @@
 	                    <td><input class="easyui-validatebox" type="text" name="pass" data-options="required:true"></input></td>
 	                </tr>
 	                <tr>
-	                    <td>昵称:</td>
-	                    <td><input class="easyui-validatebox" type="text" name="nickname" data-options="required:true"></input></td>
-	                </tr>
-	                <tr>
 	                    <td>真实姓名:</td>
 	                    <td><input class="easyui-validatebox" type="text" name="realname" data-options="required:true"></input></td>
 	                </tr>
@@ -251,11 +237,6 @@
 	                    <td>手机:</td>
 	                    <td><input class="easyui-validatebox" type="text" name="phoneNo" data-options="required:true"></input></td>
 	                </tr>
-	                 <tr>
-	                    <td>办公电话:</td>
-	                    <td><input class="easyui-validatebox" type="text" name="officeTel" data-options="required:true"></input></td>
-	                </tr>
-	               
 	                <tr>
 	                    <td>在职状态:</td>
 	                    <td>

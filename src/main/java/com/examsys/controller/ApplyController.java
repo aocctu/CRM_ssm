@@ -47,6 +47,42 @@ public class ApplyController {
 	SessionNullException sne = new SessionNullException();
 	
 	
+    private static int addPart = 1;
+    private static String result = "";
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+    private static String lastDate = "";
+    /**
+     * 获取主键
+     * @param length 长度
+     * @return 返回17位时间戳+3位递增数
+     */
+    public synchronized static String getId(int length) {
+        //获取时间部分字符串
+        Date now = new Date();
+        String nowStr = sdf.format(now);
+ 
+        //获取数字后缀值部分
+        if (ApplyController.lastDate.equals(nowStr)) {
+            addPart += 1;
+        } else {
+            addPart = 1;
+            lastDate = nowStr;
+        }
+ 
+        if (length > 17) {
+            length -= 17;
+            for (int i = 0; i < length - ((addPart + "").length()); i++) {
+                nowStr += "0";
+            }
+            nowStr += addPart;
+            result = nowStr;
+        } else {
+            result = nowStr;
+        }
+        return result;
+    }
+	
+	
 	/**
 	 * 申请初始化
 	 * @param id
@@ -93,7 +129,6 @@ public class ApplyController {
 				oldPar.setMaterials_status("领料中");
 				
 				Delivery del = new Delivery();
-				del.setBatch_num("");
 				del.setMaterial_code(partsWarehouse.getMaterial_code());
 				del.setModel(partsWarehouse.getModel());
 				del.setDescription(partsWarehouse.getDescription());
@@ -101,6 +136,8 @@ public class ApplyController {
 				String receive_num = partsWarehouse.getReceive_num();
 				del.setReceive_num(Integer.valueOf(receive_num));
 				del.setMaterials_status("领料中");
+				
+				del.setBatch_num(ApplyController.getId(20));
 			
 				Employee employee = (Employee)req.getSession().getAttribute("EMPLOYEE");
 				String dateNowStr=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());

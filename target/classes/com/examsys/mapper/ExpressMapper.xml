@@ -97,7 +97,7 @@
 			<if test="exp_status != null">
 				AND a.EXP_STATUS = #{exp_status}
 			</if>
-				<if test="exp_status == null">
+			<if test="exp_status == null">
 				AND a.EXP_STATUS = '已录入'
 			</if>
 			<trim prefix="WHERE" prefixOverrides="AND|OR"></trim>

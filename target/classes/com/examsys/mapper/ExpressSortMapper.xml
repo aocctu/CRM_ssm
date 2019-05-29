@@ -84,7 +84,7 @@
 	<!-- 主/整机仓存汇总 -->
 	<select id="getList3" parameterType="com.examsys.po.ExpressSort" resultMap="expressSortMap">
 		<!-- ICHIBAN 良品 报修类型小于5的， SCRAP 报废 报修类型大于4的。   -->
-		SELECT model,COUNT(IF(repair_type &lt; 5,TRUE,NULL)) AS ICHIBAN , COUNT(IF(repair_type &gt; 4,TRUE,NULL)) AS SCRAP FROM EXPRESSSORT WHERE POSITION='入库' GROUP BY MODEL
+		SELECT model,SUM(IF(repair_type &lt; 5,QUANTITY,0)) AS ICHIBAN , SUM(IF(repair_type &gt; 4,QUANTITY,0)) AS SCRAP FROM EXPRESSSORT WHERE POSITION='入库' GROUP BY MODEL
 		
 	</select>
 	

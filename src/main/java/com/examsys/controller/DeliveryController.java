@@ -45,7 +45,7 @@ public class DeliveryController {
 	
 	SessionNullException sne = new SessionNullException();
 	
-	
+	private Date date;
 	
 	/**
 	 * 发料
@@ -91,7 +91,7 @@ public class DeliveryController {
 					partsWarehouse.setIchiban(laveIchiban);
 					partsWarehouse.setQuantity(laveQuantity);
 					
-					partsWarehouse.setMaterials_status("");
+					partsWarehouse.setMaterials_status(null);
 					partsWarehouse.setReceive_num("");
 					
 					

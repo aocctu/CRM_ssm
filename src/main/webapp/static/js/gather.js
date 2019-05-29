@@ -227,8 +227,8 @@ $(function(){
     $('#dg').datagrid({
     	columns:[[
 			{field:'model',title:'机型', width:160},
-			{field:'ichiban',title:'良品', width:60},
-			{field:'scrap',title:'报废', width:100},
+			{field:'ichiban',title:'良品', width:80},
+			{field:'scrap',title:'报废', width:80},
     	]]
     });
     

@@ -162,7 +162,6 @@ $(function(){
 			{field:'id',title:'编号', width:80},
 			{field:'username',title:'用户名', width:150},
 			{field:'pass',title:'密码', width:160},
-			{field:'nickname',title:'昵称', width:100},
 			{field:'realname',title:'真实姓名', width:100},
 			{field:'jobInfoid',title:'职位', width:100,
     			formatter: function(value,row,index){
@@ -183,7 +182,6 @@ $(function(){
     			}
     		},
     		{field:'phoneNo',title:'手机', width:100},
-    		{field:'officeTel',title:'办公电话', width:100},
     		{field:'workStatu',title:'在职状态', width:80,
     			formatter: function(value,row,index){
     				if (row.workStatu){
